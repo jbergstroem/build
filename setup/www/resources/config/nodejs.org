@@ -12,9 +12,17 @@ log_format nodejs    '$remote_addr - $remote_user [$time_local] '
                      '"$http_referer" "$http_user_agent" "$http_x_forwarded_for"';
 
 server {
+    listen *:80;
+    listen [::]:80 ipv6only=on;
+    server_name wwww.nodejs.org;
+
+    return 301 https://nodejs.org$request_uri;
+}
+
+server {
     listen *:80 default_server;
     listen [::]:80 default_server ipv6only=on;
-    server_name www.nodejs.org nodejs.org;
+    server_name nodejs.org;
 
     access_log /var/log/nginx/nodejs.org-access.log nodejs;
     error_log /var/log/nginx/nodejs.org-error.log;
@@ -32,17 +40,9 @@ server {
       rewrite ^/blog(.*) http://blog.nodejs.org/$1 permanent;
     }
 
-    location ~ ^/(?!(dist/|dist$|\.json$)) {
-        rewrite ^ https://nodejs.org$request_uri permanent;
-    }
-
     root /home/www/nodejs;
     default_type text/plain;
     index index.html;
-
-    if ($host ~* ^www\.){
-        rewrite ^(.*)$ http://nodejs.org$1;
-    }
 
     location / {
         location ~ \.json$ {
@@ -150,25 +150,19 @@ server {
     listen *:443 default_server ssl spdy;
     listen [::]:443 default_server ipv6only=on ssl spdy;
 
-    server_name nodejs.org www.nodejs.org new.nodejs.org;
+    server_name new.nodejs.org www.nodejs.org;
+    include includes/node-ssl.conf;
 
-    ssl_certificate ssl/nodejs_chained.crt;
-    ssl_certificate_key ssl/nodejs.key;
-    ssl_trusted_certificate ssl/nodejs_chained.crt;
-    ssl_dhparam ssl/dhparam.pem;
+    return 301 https://nodejs.org$request_uri;
+}
 
-    ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
-    ssl_prefer_server_ciphers on;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+server {
+    listen *:443 default_server ssl spdy;
+    listen [::]:443 default_server ipv6only=on ssl spdy;
 
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_timeout 24h;
+    server_name nodejs.org;
 
-    ssl_stapling on;
-    ssl_stapling_verify on;
-
-    spdy_keepalive_timeout 300;
-    spdy_headers_comp 9;
+    include includes/node-ssl.conf;
 
     keepalive_timeout 60;
     server_tokens off;
@@ -189,14 +183,6 @@ server {
     gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
     error_page 404 /en/404.html;
-
-    if ($host ~* ^www\.) {
-        rewrite ^(.*)$ https://nodejs.org$1;
-    }
-
-    if ($host ~* ^new\.) {
-        rewrite ^(.*)$ https://nodejs.org$1;
-    }
 
     if ($host ~* ^blog\.) {
         # keep the blog rewrites in the blog.nodejs.org:80 config
