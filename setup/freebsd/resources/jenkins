@@ -18,30 +18,34 @@ name="jenkins"
 rcvar=jenkins_enable
 
 load_rc_config ${name}
+required_files="${procname} ${jenkins_jar}"
 
-PATH="/usr/local/libexec/ccache:/usr/local/bin:${PATH}"
-NODE_COMMON_PIPE="/home/iojs/test.pipe"
+# @TODO: supposedly shoudl be passed through ${name}_env
+#        but I cant get it to work
+export OSTYPE=freebsd
+export NODE_COMMON_PIPE="/home/${jenkins_user}/test.pipe"
+export PATH="/usr/local/libexec/ccache:/usr/local/bin:${PATH}"
+export JOBS=$(getconf NPROCESSORS_ONLN)
+export CC=cc
+export CXX=c++
 
-jenkins_jar="/home/iojs/slave.jar"
+jenkins_jar="/home/${jenkins_user}/slave.jar"
 jenkins_log_file="/home/${jenkins_user}/${name}_console.log"
 jenkins_args="-jar ${jenkins_jar} \
 	-jnlpUrl ${jenkins_jnlpurl} \
 	-secret ${jenkins_secret}"
-jenkins_jobs="$(getconf NPROCESSORS_ONLN)"
 
 # FreeBSD uses a java wrapper. Without full path pid monitoring won't work
 procname=$(cat /usr/local/etc/javavms | cut -d "#" -f 1)
 pidfile="/var/run/${name}/${name}.pid"
 monitor_pidfile="/var/run/${name}/${name}_monitor.pid"
-command="/usr/sbin/daemon"
-command_args="-r -p ${pidfile} -P ${monitor_pidfile} ${procname} \
-	${jenkins_args} > ${jenkins_log_file} 2>&1"
-env="PATH=${PATH} JOBS=${jenkins_jobs} OSTYPE=${OSTYPE} \
-	NODE_COMMON_PIPE=${NODE_COMMON_PIPE} CC=cc CXX=c++"
-required_files="${procname} ${jenkins_jar}"
 
+command="/usr/sbin/daemon"
+command_args="-f -r -p ${pidfile} -P ${monitor_pidfile} ${procname} \
+	${jenkins_args} -slaveLog ${jenkins_log_file}"
+
+# We need to provide a custom stop since we kill the monitor
 start_precmd="${name}_prestart"
-start_cmd="${name}_start"
 stop_cmd="${name}_stop"
 
 jenkins_prestart() {
@@ -55,17 +59,9 @@ jenkins_prestart() {
 			-m 750 $(dirname ${pidfile})
 	fi
 
-	if [ ! $jenkins_secret ]; then
+	if [ ! ${jenkins_secret} ]; then
 		err 1 "You need to add a jenkins secret"
 	fi
-}
-
-jenkins_start()
-{
-	check_startmsgs
-	echo "Starting ${name}."
-	# @TODO: get rid of nasty banner when su -l
-	su -l ${jenkins_user} -c "${env} exec ${command} ${command_args}"
 }
 
 jenkins_stop()
@@ -73,7 +69,7 @@ jenkins_stop()
 	if [ ! -f ${pidfile} ]; then
 		echo "${name} isn't running."
 	else
-		echo -n "Stopping service: ${name}"
+		echo -n "Stopping ${name}"
 		kill `cat ${monitor_pidfile}`
 		# files are removed on exit, but be extra sure
 		rm -f ${pidfile} ${monitor_pidfile}

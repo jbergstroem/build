@@ -50,7 +50,7 @@
       tags: user
 
     - name: Jenkins | Download Jenkins slave.jar
-      get_url: url={{ jenkins_base_url }}/jnlpJars/slave.jar dest=/home/{{ jenkins_user }}/slave.jar
+      get_url: url={{ jenkins_slave_url }} dest=/home/{{ jenkins_user }}/slave.jar
       tags: jenkins
 
     - name: Init | Assure that {rc.d, rc.conf.d} directories exists

@@ -3,3 +3,5 @@
 # Avoid pollution at all costs :)
 jenkins_user: iojs
 jenkins_base_url: https://ci.nodejs.org/
+jenkins_slave_url: "{{ jenkins_base_url }}/jnlpJars/slave.jar"
+jenkins_jnlp_url: "{{ jenkins_base_url }}computer/{{ inventory_hostname }}/slave-agent.jnlp"
