@@ -20,20 +20,18 @@ rcvar=jenkins_enable
 load_rc_config ${name}
 required_files="${procname} ${jenkins_jar}"
 
-# @TODO: supposedly shoudl be passed through ${name}_env
-#        but I cant get it to work
-export OSTYPE=freebsd
-export NODE_COMMON_PIPE="/home/${jenkins_user}/test.pipe"
-export PATH="/usr/local/libexec/ccache:/usr/local/bin:${PATH}"
-export JOBS=$(getconf NPROCESSORS_ONLN)
-export CC=cc
-export CXX=c++
-
 jenkins_jar="/home/${jenkins_user}/slave.jar"
 jenkins_log_file="/home/${jenkins_user}/${name}_console.log"
 jenkins_args="-jar ${jenkins_jar} \
 	-jnlpUrl ${jenkins_jnlpurl} \
-	-secret ${jenkins_secret}"
+	-secret ${jenkins_secret} \
+	-slaveLog ${jenkins_log_file}"
+jenkins_env="OSTYPE=freebsd \
+  NODE_COMMON_PIPE=/home/${jenkins_user}/test.pipe \
+  PATH=/usr/local/libexec/ccache:/usr/local/bin:${PATH} \
+  JOBS=$(getconf NPROCESSORS_ONLN) \
+  CC=cc \
+  CXX=c++"
 
 # FreeBSD uses a java wrapper. Without full path pid monitoring won't work
 procname=$(cat /usr/local/etc/javavms | cut -d "#" -f 1)
@@ -42,7 +40,7 @@ monitor_pidfile="/var/run/${name}/${name}_monitor.pid"
 
 command="/usr/sbin/daemon"
 command_args="-f -r -p ${pidfile} -P ${monitor_pidfile} ${procname} \
-	${jenkins_args} -slaveLog ${jenkins_log_file}"
+	${jenkins_args}"
 
 # We need to provide a custom stop since we kill the monitor
 start_precmd="${name}_prestart"
