@@ -1,0 +1,17 @@
+---
+
+- hosts: test
+
+  remote_user: freebsd
+  sudo: yes
+  gather_facts: False
+
+  tasks:
+    - group_by: key="{{ os }}"
+
+    - include_vars: "../includes/{{ os }}.yaml"
+      failed_when: False
+
+    - name: Debug line
+      debug: msg="Look! A debug line {{ os }}"
+      when: os == "freebsd10"
