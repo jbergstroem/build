@@ -33,3 +33,31 @@ These playbooks are available to you:
 
    # end: node.js template
    ```
+
+
+#### TODO
+
+Unsorted stuff of things I need to do/think about
+
+- copy keys and config to release machines
+- ubuntu systemd init needs different path (copy from gather_facts path?)
+- paths in systemd init scripts differ
+- freebsd: replace quarterly with latest for packages
+- support host aliases in hostname config generator
+- avoid windows hosts in ssh generator
+- create command to check ccache statistics
+- xz on all boxes
+- svn on all boxes?
+- add command to update all packages and update node
+- use become instead of sudo
+- make sure we copy the ssh credentials to the ssh user
+- copy release (staging) keys to release machines
+- backup host: generate config, install rsnapshot
+- ci vs ci-release.nodejs.org in init scripts
+- scaleway: authorized_keys2 since first is overridden at boot
+- switch to slaveLog for all jenkins instances lacking stdout redirection
+- release centos5 needs swap or more ram?
+- run service iptables-save persistent on build master
+- weekly cron job to update slave.jar?
+- make sure ::1 localhost exists in all hosts (#415)
+- unencrypted host: https://gist.github.com/jbergstroem/5c308089c26e7ae7529a0ef2df92a7f9
