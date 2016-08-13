@@ -1,0 +1,11 @@
+---
+
+#
+# Sets up a jenkins slave! Muy bueno
+#
+
+- hosts: test
+  roles:
+    - bootstrap
+
+  tasks:

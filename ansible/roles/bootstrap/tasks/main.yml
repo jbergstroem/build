@@ -1,0 +1,8 @@
+---
+
+#
+# Bootstrap packages required for ansible to work
+#
+
+  - name: include os-specific tasks
+    include: "partials/{{ os }}.yml"

@@ -1,1 +1,4 @@
-ssh_private_key_file: ~/.ssh/nodejs_build_test
+jenkins_url: "https://ci.nodejs.org/"
+jenkins_slave_jar: "{{ jenkins_url }}/jnlpJars/slave.jar"
+server_user: "iojs"
+ssh_private_key_file: "~/.ssh/nodejs_build_test"
