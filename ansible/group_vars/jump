@@ -1,2 +1,1 @@
 ansible_ssh_common_args = -o ProxyCommand="ssh jump@vagg-arm.nodejs.org nc -q0 %h %p"
-ssh_private_key_file = ~/.ssh/nodejs_build_jump-rvagg
