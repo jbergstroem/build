@@ -1,0 +1,15 @@
+---
+
+#
+# share some templates since they are very similar
+#
+
+shared: {
+  'fedora22': 'fedora',
+  'fedora23': 'fedora',
+  'fedora24': 'fedora'
+}
+
+# stat with local_action doesn't respect relative paths/cwd, `role_path`
+template: "{{ role_path }}/tasks/partials/{{ shared[os] | default(os) }}.yml"
+  

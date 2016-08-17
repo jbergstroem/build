@@ -1,0 +1,14 @@
+---
+
+#
+# freebsd 10
+#
+
+  - name: check for python
+    raw: stat /usr/local/bin/python
+    register: has_python
+    failed_when: has_python.rc > 1
+
+  - name: install python
+    raw: pkg add -y python
+    when: has_python.rc == 1

@@ -1,17 +1,18 @@
 ---
 
 #
-# Bootstrap alpine 3.4
+#  alpine 3.4
 #
 
   - name: check for python
-    raw: which python
+    raw: stat /usr/bin/python
     failed_when: has_python.rc > 1
     register: has_python
 
-  - name: update package database (python might be missing)
+  - name: update package database
     raw: apk update
     when: has_python.rc == 1
+    register: has_updated_alpine34_package_database
 
   - name: install python
     raw: apk add python
