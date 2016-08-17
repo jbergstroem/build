@@ -47,7 +47,7 @@ lead to unwanted consequences.
 
 `ip=` is required for each host since it is used both by ansible and placed
 in your ssh config _unless_ its behind a jump host -- if that's the case,
-just assign it to `groups=jump`. `user=`` is optional and should only be
+just assign it to `groups=jump`. `user=` is optional and should only be
 provided if ssh requires a non-root login.
 
 `alias=` is used to create shorthand names for ssh convenience.
