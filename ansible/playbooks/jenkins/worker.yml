@@ -1,7 +1,7 @@
 ---
 
 #
-# Sets up a jenkins slave! Muy bueno
+# Sets up a jenkins worker! Muy bueno
 #
 
 - hosts: test
