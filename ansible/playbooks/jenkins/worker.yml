@@ -9,3 +9,6 @@
     - bootstrap
 
   tasks:
+
+    - name: create the active user
+      user: name="{{ server_user }}" shell=/bin/bash
