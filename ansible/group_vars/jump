@@ -1,1 +1,0 @@
-ansible_ssh_common_args = -o ProxyCommand="ssh jump@vagg-arm.nodejs.org nc -q0 %h %p"

@@ -22,7 +22,7 @@
 #
 
 from __future__ import (absolute_import, division, print_function)
-from ansible import errors
+from ansible import errors, inventory
 __metaclass__ = type
 
 # Taken from nodejs/node.git: ./configure
@@ -108,6 +108,11 @@ class VarsModule(object):
             host.set_variable('ansible_username', host.vars['user'])
         except KeyError:
             pass
+
+        # Add jump hosts to the proper group so we can inherit ssh commands
+        if "tunnel" in host.vars:
+            jump = inventory.group.Group(name="tunnel-%s" % host.vars['tunnel'])
+            jump.add_host(host)
 
         return {}
 

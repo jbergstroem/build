@@ -1,0 +1,5 @@
+;
+; settings for jumping through rvagg-arm.nodejs.org
+;
+
+ansible_ssh_common_args = -o ProxyCommand="ssh jump@vagg-arm.nodejs.org:2222 nc -q0 %h %p"

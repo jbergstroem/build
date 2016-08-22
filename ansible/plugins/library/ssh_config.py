@@ -42,16 +42,9 @@ Host {{ host }} {{ metadata.alias }}
   HostName {{ metadata.ip }}
   IdentityFile {{ metadata.ssh_private_key_file }}
   User {{ metadata.user or "root" }}
+  {{- ansible_ssh_common_args -}}
 {%- endif %}
 {% endfor %}
-"""
-
-jump_template  = \
-"""
-Host vagg-arm.nodejs.org
-  Port 2222
-  User jump
-  IdentityFile ~/.ssh/vagg-arm-id_rsa
 """
 
 def is_templatable(path, config):
