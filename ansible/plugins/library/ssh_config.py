@@ -28,12 +28,11 @@ import os
 import re
 import pprint
 
-# reuse plez
 pre_match  = "# begin: node.js template"
 post_match = "# end: node.js template"
-match      = re.compile(
-    r"^\# begin\: node\.js template(.*)\# end\: node\.js template",
-    flags=re.DOTALL|re.MULTILINE)
+match      = re.compile(r"^" + re.escape(pre_match) +
+                        "(.*)" + re.escape(post_match),
+                        flags=re.DOTALL|re.MULTILINE)
 
 host_template = \
 """{% for host, metadata in hosts.iteritems(): %}
