@@ -23,16 +23,21 @@
 #
 
 from ansible.module_utils.basic import *
-from jinja2 import Environment, Template
+from jinja2 import Environment, Template, filters
 import os
 import re
-import pprint
 
 pre_match  = "# begin: node.js template"
 post_match = "# end: node.js template"
 match      = re.compile(r"^" + re.escape(pre_match) +
                         "(.*)" + re.escape(post_match),
                         flags=re.DOTALL|re.MULTILINE)
+
+replace_ssh_args = {
+  '-o ': '',
+  '\'': '',
+  '=': ' '
+}
 
 host_template = \
 """{% for host, metadata in hosts.iteritems(): %}
@@ -41,17 +46,26 @@ Host {{ host }} {{ metadata.alias }}
   HostName {{ metadata.ip }}
   IdentityFile {{ metadata.ssh_private_key_file }}
   User {{ metadata.user or "root" }}
-  {{- ansible_ssh_common_args -}}
+  {{ metadata.ansible_ssh_common_args|multi_replace(replace_ssh_args)
+       if metadata.ansible_ssh_common_args -}}
 {%- endif %}
-{% endfor %}
+{%- endfor %}
 """
+
+def multi_replace(content, to_replace):
+    for key, val in to_replace.iteritems():
+        content = content.replace(key, val)
+    return content
 
 def is_templatable(path, config):
     return os.path.exists(path) and bool(re.search(match, config))
 
-
 def render_template(hosts):
-    return Environment().from_string(host_template).render(hosts=hosts)
+    render = Environment()
+    render.filters['multi_replace'] = multi_replace
+    return render.from_string(host_template).render(hosts=hosts,
+        replace_ssh_args=replace_ssh_args)
+
 
 
 def main():

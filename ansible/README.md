@@ -34,7 +34,7 @@ These playbooks are available to you:
    # end: node.js template
    ```
 
-#### Adding a host to `inventory.cfg`
+#### Adding a host to the inventory
 
 Every host is part of a group (names in square brackets) If you can't find a
 group that suits you, it's probably missing. Go add it (if you know what you're
@@ -46,11 +46,9 @@ will throw errors if you don't. Also, using an incorrect convention might
 lead to unwanted consequences.
 
 `ip=` is required for each host since it is used both by ansible and placed
-in your ssh config _unless_ its behind a jump host -- if that's the case,
-just assign it to `groups=jump`. `user=` is optional and should only be
-provided if ssh requires a non-root login.
-
-`alias=` is used to create shorthand names for ssh convenience.
+in your ssh config. `user=` is optional and should only be provided if ssh
+requires a non-root login. `alias=` is used to create shorthand names for
+ssh convenience.
 
 ##### Naming
 
@@ -61,7 +59,9 @@ $group-$provider(_$optionalmeta)-$os(_$optionalmeta)-$architecture-$uid
 ```
 
 For more information, refer to other hosts in `inventory.cfg` or the [ansible
-plugin that is responsible for parsing](plugins/vars/parse_host.py)
+plugin that is responsible for parsing it][1].
+
+[1]: plugins/vars/parse_host.py
 
 ##### Working with labels
 
@@ -80,29 +80,36 @@ labels, separated by commas; for instance:
 There are also labels that are only used in the release environment, such as
 `pre-1-release`.
 
+##### Jump hosts
+If your host is hidden behind a proxy or jump host, create a new group in the
+meta section and add a jump command similar to [`group_vars/tunnel_rvagg`][2]. Avoid passing `-J` since it requires a more recent version of ssh.
+
+[2]: group_vars/tunnel_rvagg
+
+
 #### TODO
 
 Unsorted stuff of things I need to do/think about
 
-- copy keys and config to release machines
-- ubuntu systemd init needs different path (copy from gather_facts path?)
-- paths in systemd init scripts differ
-- freebsd: replace quarterly with latest for packages
-- support host aliases in hostname config generator
-- avoid windows hosts in ssh generator
-- create command to check ccache statistics
-- xz on all boxes
-- svn on all boxes?
-- add command to update all packages and update node
-- use become instead of sudo
-- make sure we copy the ssh credentials to the ssh user
-- copy release (staging) keys to release machines
-- backup host: generate config, install rsnapshot
-- ci vs ci-release.nodejs.org in init scripts
-- scaleway: authorized_keys2 since first is overridden at boot
-- switch to slaveLog for all jenkins instances lacking stdout redirection
-- release centos5 needs swap or more ram?
-- run service iptables-save persistent on build master
-- weekly cron job to update slave.jar?
-- make sure ::1 localhost exists in all hosts (#415)
-- unencrypted host: https://gist.github.com/jbergstroem/5c308089c26e7ae7529a0ef2df92a7f9
+- [ ] playbook: copy keys and config to release machines
+- [ ] ubuntu systemd init needs different path (copy from gather_facts path?)
+- [ ] paths in systemd init scripts differ
+- [ ] freebsd: replace quarterly with latest for packages
+- [ ] support host aliases in hostname config generator
+- [ ] avoid windows hosts in ssh generator
+- [ ] create command to check ccache statistics
+- [ ] xz,svn on all test boxes
+- [ ] add command to update all packages
+- [ ] use become instead of sudo
+- [ ] copy release (staging) keys to release machines
+- [ ] backup host: generate config, install rsnapshot
+- [x] ci vs ci-release.nodejs.org in init scripts
+- [ ] scaleway: authorized_keys2 since first is overridden at boot
+- [ ] switch to slaveLog for all jenkins instances lacking stdout redirection
+- [x] release centos5 needs swap or more ram? (nope)
+- [ ] run service iptables-save persistent on build master
+- [x] weekly cron job to update slave.jar? (nope, playbook)
+- [ ] make sure ::1 localhost exists in all hosts (#415)
+- [ ] [unencrypted host](https://git.io/v6H1z)
+- [ ] figure out how ansible parses group_vars since adding groups from
+      vars_plugins doesn't seem to make the vars get picked up (ansible 2.0)

@@ -109,11 +109,6 @@ class VarsModule(object):
         except KeyError:
             pass
 
-        # Add jump hosts to the proper group so we can inherit ssh commands
-        if "tunnel" in host.vars:
-            jump = inventory.group.Group(name="tunnel-%s" % host.vars['tunnel'])
-            jump.add_host(host)
-
         return {}
 
     def get_group_vars(self, group, vault_password=None):
