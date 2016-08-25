@@ -92,6 +92,8 @@ meta section and add a jump command similar to [`group_vars/tunnel_rvagg`][2]. A
 Unsorted stuff of things I need to do/think about
 
 - [ ] playbook: copy keys and config to release machines
+- [ ] avoid messing with keys on machines that has multiple usage such as jump
+      hosts (or set up a new jump host)
 - [ ] ubuntu systemd init needs different path (copy from gather_facts path?)
 - [ ] paths in systemd init scripts differ
 - [ ] freebsd: replace quarterly with latest for packages
@@ -113,3 +115,4 @@ Unsorted stuff of things I need to do/think about
 - [ ] [unencrypted host](https://git.io/v6H1z)
 - [ ] figure out how ansible parses group_vars since adding groups from
       vars_plugins doesn't seem to make the vars get picked up (ansible 2.0)
+- [ ] set the hostname to `{{ inventory_hostname }}`
