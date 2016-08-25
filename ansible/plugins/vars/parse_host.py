@@ -106,6 +106,7 @@ class VarsModule(object):
             # Convert our shorthand variables to something that Ansible prefers
             host.set_variable('ansible_hostname', host.vars['ip'])
             host.set_variable('ansible_username', host.vars['user'])
+            host.set_variable('ansible_port',     host.vars['port'])
         except KeyError:
             pass
 

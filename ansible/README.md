@@ -116,3 +116,4 @@ Unsorted stuff of things I need to do/think about
 - [ ] figure out how ansible parses group_vars since adding groups from
       vars_plugins doesn't seem to make the vars get picked up (ansible 2.0)
 - [ ] set the hostname to `{{ inventory_hostname }}`
+- [ ] make exceptions for jump hosts when adding to the CI iptables firewall
