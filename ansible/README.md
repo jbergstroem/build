@@ -52,7 +52,7 @@ ssh convenience.
 
 ##### Naming
 
-Each host should follow this naming convention:
+Each host must follow this naming convention:
 
 ```
 $group-$provider(_$optionalmeta)-$os(_$optionalmeta)-$architecture-$uid
