@@ -41,7 +41,7 @@ replace_ssh_args = {
 
 host_template = \
 """
-{%- for host, metadata in hosts.iteritems(): -%}
+{%- for host, metadata in hosts|dictsort: -%}
 {%- if metadata.ip -%}
 {%- set ssh_arg = metadata.ansible_ssh_common_args %}
 Host {{ host }} {{ metadata.alias }}
