@@ -4,7 +4,7 @@ description="Start a Jenkins slave"
 
 name="java"
 command="/usr/bin/java"
-command_args="-jar /home/{{ server_user }}/slave.jar \
+command_args="-jar /home/{{ server_user }}/slave.jar -Xmx128m \
   -jnlpUrl {{ jenkins_url }}/computer/{{ inventory_hostname }}/slave-agent.jnlp \
   -slaveLog /home/{{ server_user }}/slave.log \
   -secret {{ secret }}"
@@ -17,7 +17,7 @@ depend() {
 
 start() {
         export PATH="/usr/lib/ccache/bin:$PATH"
-        export JOBS={{ jobs }}
+        export JOBS={{ server_jobs | default(ansible_processor_vcpus) }}
         export HOME=/home/{{ server_user }}
         export NODE_TEST_DIR=${HOME}/tmp
         export NODE_COMMON_PIPE=/home/{{ server_user }}/test.pipe

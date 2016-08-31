@@ -1,14 +1,31 @@
 ---
 
 #
-# Sets up a jenkins worker! Muy bueno
+# Set up a jenkins worker! Muy bueno
 #
 
-- hosts: test
+- hosts: test, lint
   roles:
     - bootstrap
 
   tasks:
 
+    - name: collect host info
+      gather_facts: gather_subset=hardware
+
+    - name: set hostname
+      hostname: name="{{ inventory_hostname }}"
+
     - name: create the active user
       user: name="{{ server_user }}" shell=/bin/bash
+
+    - name: update freebsd package source
+      when: "{{ os }}" is "freebsd"
+      lineinfile:
+        dest: /etc/pkg/FreeBSD.conf
+        regex: '^(\s+)url\:'
+        state: present
+        line: '  url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest",'
+
+    - name: update packages
+      include: "../includes/packages/{{ os }}.yml"

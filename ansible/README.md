@@ -107,14 +107,13 @@ Unsorted stuff of things we need to do/think about
 - [ ] avoid messing with keys on machines that has multiple usage such as jump
       hosts (or set up a new jump host)
 - [ ] ubuntu systemd init needs different path (copy from gather_facts path?)
-- [ ] paths in systemd init scripts differ
 - [ ] freebsd: replace quarterly with latest for packages
 - [ ] support host aliases in hostname config generator
 - [ ] avoid windows hosts in ssh generator
 - [ ] create command to check ccache statistics
 - [ ] xz,svn on all test boxes
 - [ ] add command to update all packages
-- [ ] use become instead of sudo
+- [x] use become instead of sudo
 - [ ] copy release (staging) keys to release machines
 - [ ] backup host: generate config, install rsnapshot
 - [x] ci vs ci-release.nodejs.org in init scripts
@@ -127,7 +126,8 @@ Unsorted stuff of things we need to do/think about
 - [ ] [unencrypted host](https://git.io/v6H1z)
 - [ ] figure out how ansible parses group_vars since adding groups from
       vars_plugins doesn't seem to make the vars get picked up (ansible 2.0)
-- [ ] set the hostname to `{{ inventory_hostname }}`
+- [x] set the hostname to `{{ inventory_hostname }}`
 - [ ] make exceptions for jump hosts when adding to the CI iptables firewall
 - [ ] when creating additional jenkins labels based on `labels=` add os/arch
       as part of hte label
+- [ ] extract -Xmx128m to a variable should we need to increase worker ram

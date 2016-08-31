@@ -25,14 +25,14 @@ from __future__ import (absolute_import, division, print_function)
 from ansible import errors, inventory
 __metaclass__ = type
 
-# Taken from nodejs/node.git: ./configure
+# taken from nodejs/node.git: ./configure
 valid_arch = ('arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 'x32',
               'x64', 'x86', 's390', 's390x')
 
-# Valid roles. Add as necessary
+# valid roles - add as necessary
 valid_types = ('infra', 'lint', 'release', 'test')
 
-# Providers. Validated for consistency
+# providers - validated for consistency
 valid_providers = ('azure', 'digitalocean', 'joyent', 'ibm', 'nodesource',
                    'msft', 'osuosl', 'rackspace', 'scaleway', 'softlayer',
                    'voxer')
@@ -90,7 +90,6 @@ class VarsModule(object):
         self.inventory = inventory
         self.inventory_basedir = inventory.basedir()
 
-
     def get_host_vars(self, host, vault_password=None):
         try:
             parsed_host = parse_host(host.get_name())
@@ -98,15 +97,21 @@ class VarsModule(object):
                 host.set_variable(k, v[0] if type(v) is dict else v)
 
         except Exception, e:
-            errors.AnsibleError("Failed to parse host: %s" % e)
+            errors.AnsibleError('Failed to parse host: %s' % e)
 
         try:
             host.set_variable('labels', convert_labels(host.vars['labels']))
 
-            # Convert our shorthand variables to something that Ansible prefers
+            # convert our shorthand variables to something that Ansible prefers
             host.set_variable('ansible_hostname', host.vars['ip'])
             host.set_variable('ansible_username', host.vars['user'])
             host.set_variable('ansible_port',     host.vars['port'])
+
+            # convenience: enable root for all hosts that requires
+            # a different ssh username
+            if 'user' in host.vars:
+                host.set_variable('ansible_become', True) 
+
         except KeyError:
             pass
 
