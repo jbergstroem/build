@@ -7,8 +7,8 @@
 
 1. Install ansible 2.0 or newer: `brew install ansible`.
 2. Read this document. All of it.
-3. Clone the node secrets repository (if you don't have access, ask anyone in
-   the build group about it)
+3. Clone the node secrets repository (if you don't have access,
+   ask anyone in the build group about it)
 4. Copy the private keys (check the secrets repo for instructions) to your
    `~/.ssh` folder. Make sure they have the same name. What keys are available
    to you depends on what role you have. In order to create new vm's and hook
@@ -38,17 +38,14 @@ These playbooks are available to you:
 
 Every host is part of a group (names in square brackets) If you can't find a
 group that suits you, it's probably missing. Go add it (if you know what you're
-doing) or ping someone in the build group for advice/guides. Only add it to one
-group since each group is meant to contain sub groups or roles.
+doing) or ping someone in the build group for advice/guides.
+
+Only add the host to one group since each group is meant to contain sub groups
+and/or roles; exception being part of jump hosts (for instance `tunnel_rvagg`).
 
 Make sure you follow the naming convention. There are scripts in place that
-will throw errors if you don't. Also, using an incorrect convention might
+will throw errors if you don't. Using an incorrect convention will likely
 lead to unwanted consequences.
-
-`ip=` is required for each host since it is used both by ansible and placed
-in your ssh config. `user=` is optional and should only be provided if ssh
-requires a non-root login. `alias=` is used to create shorthand names for
-ssh convenience.
 
 #### Naming
 
@@ -63,7 +60,19 @@ plugin that is responsible for parsing it][1].
 
 [1]: plugins/vars/parse_host.py
 
+#### Metadata
+
+Each host needs a bit of metadata:
+
+ - `ip=` (required): used both by ansible and placed in your ssh config.
+ - `user=` (optional): only provided if ssh requires a non-root login.
+ - `alias=` (optional): creates shorthand names for ssh convenience.
+
+Each host can also labels. More on that below.
+
 #### Working with labels
+
+**Note: note implemented yet**
 
 Labels are used in the jenkins environment. They're most often used when
 defining what workers should be part of a job.
@@ -71,26 +80,28 @@ defining what workers should be part of a job.
 Each host gets at least a label based on os/arch, such as centos6-x64 or
 freebsd10-x86. If the machine has other intended uses, you can add more
 labels, separated by commas; for instance:
+
 ```
   test-digitalocean-freebsd10-x64-1 ip=1.2.3.4 labels=foo,bar
 ```
 
 (important: don't put space between multiple labels or ansible will cry)
 
-There are also labels that are only used in the release environment, such as
-`pre-1-release`.
+There are also labels that are only used in the release environment,
+such as `pre-1-release`.
 
 #### Jump hosts
 
 If your host is hidden behind a proxy or jump host, create a new group in the
-meta section and add a jump command similar to [`group_vars/tunnel_rvagg`][2]. Avoid passing `-J` since it requires a more recent version of ssh.
+meta section and add a jump command similar to [`group_vars/tunnel_rvagg`][2].
+Avoid passing `-J` since it requires a more recent version of ssh.
 
 [2]: group_vars/tunnel_rvagg
 
 
 ### TODO
 
-Unsorted stuff of things I need to do/think about
+Unsorted stuff of things we need to do/think about
 
 - [ ] playbook: copy keys and config to release machines
 - [ ] avoid messing with keys on machines that has multiple usage such as jump
