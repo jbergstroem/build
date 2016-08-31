@@ -40,16 +40,17 @@ replace_ssh_args = {
 }
 
 host_template = \
-"""{% for host, metadata in hosts.iteritems(): %}
-{% if metadata.ip -%}
+"""
+{%- for host, metadata in hosts.iteritems(): -%}
+{%- if metadata.ip -%}
+{%- set ssh_arg = metadata.ansible_ssh_common_args %}
 Host {{ host }} {{ metadata.alias }}
   HostName {{ metadata.ip }}
   IdentityFile {{ metadata.ssh_private_key_file }}
   User {{ metadata.user or "root" }}
-  {{ metadata.ansible_ssh_common_args|multi_replace(replace_ssh_args)
-       if metadata.ansible_ssh_common_args -}}
-{%- endif %}
-{%- endfor %}
+{{ ssh_arg|multi_replace(replace_ssh_args)|indent(2, true) + '\n' if ssh_arg }}
+ {%- endif -%}
+{%- endfor -%}
 """
 
 def multi_replace(content, to_replace):
