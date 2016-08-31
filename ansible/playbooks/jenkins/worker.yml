@@ -7,9 +7,9 @@
 - hosts: test, lint
   roles:
     - bootstrap
+    - worker
 
   tasks:
-
     - name: collect host info
       gather_facts: gather_subset=hardware
 

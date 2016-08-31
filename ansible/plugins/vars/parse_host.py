@@ -21,9 +21,7 @@
 # IN THE SOFTWARE.
 #
 
-from __future__ import (absolute_import, division, print_function)
 from ansible import errors, inventory
-__metaclass__ = type
 
 # taken from nodejs/node.git: ./configure
 valid_arch = ('arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 'x32',
@@ -110,7 +108,7 @@ class VarsModule(object):
             # convenience: enable root for all hosts that requires
             # a different ssh username
             if 'user' in host.vars:
-                host.set_variable('ansible_become', True) 
+                host.set_variable('ansible_become', True)
 
         except KeyError:
             pass
