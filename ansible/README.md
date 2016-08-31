@@ -1,9 +1,9 @@
-### Ansible scripts for the Node.js build group infrastructure
+## Ansible scripts for the Node.js build group infrastructure
 
 (in lack of a better title)
 
 
-#### Getting started
+### Getting started
 
 1. Install ansible 2.0 or newer: `brew install ansible`.
 2. Read this document. All of it.
@@ -14,7 +14,7 @@
    to you depends on what role you have. In order to create new vm's and hook
    them up to CI you have to be part of the `infra` group.
 
-#### Getting things done
+### Getting things done
 
 Most of your work will probably include editing `inventory.cfg`, followed by
 running one (or multiple) of below playbooks. If you're adding a new host,
@@ -34,7 +34,7 @@ These playbooks are available to you:
    # end: node.js template
    ```
 
-#### Adding a host to the inventory
+### Adding a host to the inventory
 
 Every host is part of a group (names in square brackets) If you can't find a
 group that suits you, it's probably missing. Go add it (if you know what you're
@@ -50,7 +50,7 @@ in your ssh config. `user=` is optional and should only be provided if ssh
 requires a non-root login. `alias=` is used to create shorthand names for
 ssh convenience.
 
-##### Naming
+#### Naming
 
 Each host must follow this naming convention:
 
@@ -63,7 +63,7 @@ plugin that is responsible for parsing it][1].
 
 [1]: plugins/vars/parse_host.py
 
-##### Working with labels
+#### Working with labels
 
 Labels are used in the jenkins environment. They're most often used when
 defining what workers should be part of a job.
@@ -80,14 +80,15 @@ labels, separated by commas; for instance:
 There are also labels that are only used in the release environment, such as
 `pre-1-release`.
 
-##### Jump hosts
+#### Jump hosts
+
 If your host is hidden behind a proxy or jump host, create a new group in the
 meta section and add a jump command similar to [`group_vars/tunnel_rvagg`][2]. Avoid passing `-J` since it requires a more recent version of ssh.
 
 [2]: group_vars/tunnel_rvagg
 
 
-#### TODO
+### TODO
 
 Unsorted stuff of things I need to do/think about
 
@@ -117,3 +118,5 @@ Unsorted stuff of things I need to do/think about
       vars_plugins doesn't seem to make the vars get picked up (ansible 2.0)
 - [ ] set the hostname to `{{ inventory_hostname }}`
 - [ ] make exceptions for jump hosts when adding to the CI iptables firewall
+- [ ] when creating additional jenkins labels based on `labels=` add os/arch
+      as part of hte label
