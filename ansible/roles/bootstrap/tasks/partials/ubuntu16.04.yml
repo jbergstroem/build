@@ -16,4 +16,4 @@
 
   - name: install python and aptitude
     raw: apt install -y python-minimal aptitude
-    when: has_python.rc == 1 or has_python.rc == 1
+    when: has_python.rc == 1 or has_aptitude.rc == 1

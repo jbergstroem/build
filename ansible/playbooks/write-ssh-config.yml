@@ -1,7 +1,7 @@
 ---
 
-# Writes inventory to ssh config under the assumption that you
-# have a template stub in there.
+# Writes inventory to ssh config under the
+# assumption that you have a template stub in there.
 
 
 - hosts: localhost
