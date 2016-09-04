@@ -5,9 +5,9 @@
 #
 
   - name: check if bootstrap is required
-    local_action: stat path="{{ template }}"
+    local_action: stat path="{{ os }}"
     register: has_template
 
   - name: include os-specific tasks
-    include: "{{ template }}"
+    include: "{{ os }}"
     when: has_template.stat.exists
