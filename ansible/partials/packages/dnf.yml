@@ -1,0 +1,8 @@
+---
+
+#
+# Updates all packages for fedora-based distributions
+#
+
+  - name: upgrade all packages
+    dnf: name=* state=latest

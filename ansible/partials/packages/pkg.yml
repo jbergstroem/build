@@ -1,0 +1,8 @@
+---
+
+#
+# Updates all packages for freebsd-based distributions
+#
+
+  - name: upgrade all packages
+    pkgng: name=* state=latest

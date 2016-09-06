@@ -1,0 +1,24 @@
+---
+
+#
+# Update packages
+#
+
+  - hosts: all
+    vars:
+      pm: {
+        'alpine':  'apk',
+        'centos':  'yum',
+        'debian':  'apt',
+        'fedora':  'dnf',
+        'freebsd': 'pkg',
+        'smartos': 'pkgin',
+        'ubuntu':  'apt'
+      }
+      template: "{{ pm|match_key(os, 'os') }}"
+
+    tasks:
+
+    - name: include os-specific package manager
+      include: "../partials/packages/{{ template }}.yml"
+      failed_when: template is False
