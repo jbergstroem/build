@@ -3,5 +3,5 @@ set daemon 30
 
 check process jenkins
   matching slave.jar
-  start program = "/etc/init.d/enkins start"
+  start program = "/etc/init.d/jenkins start"
   stop program = "/etc/init.d/jenkins stop"

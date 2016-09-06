@@ -131,3 +131,4 @@ Unsorted stuff of things we need to do/think about
 - [ ] when creating additional jenkins labels based on `labels=` add os/arch
       as part of hte label
 - [ ] extract -Xmx128m to a variable should we need to increase worker ram
+- [ ] install monit for centos5 (too old for matching, point to pidfile)
