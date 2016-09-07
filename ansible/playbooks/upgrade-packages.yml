@@ -1,7 +1,7 @@
 ---
 
 #
-# Update packages
+# upgrade installed packages
 #
 
   - hosts: all
@@ -14,6 +14,7 @@
         'pkg': 'freebsd',
         'pkgin': 'smartos',
       }
+      # see plugins/filter/filters.py -- second arg is just feedback
       template: "{{ os|match_key(pm, 'os') }}"
 
     tasks:
