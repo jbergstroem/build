@@ -3,3 +3,6 @@
 #
 # Updates all packages for debian-based distributions
 #
+
+- name: upgrade installed packages
+  apt: upgrade=dist update_cache=yes autoremove=yes

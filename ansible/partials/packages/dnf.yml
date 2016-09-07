@@ -4,5 +4,5 @@
 # Updates all packages for fedora-based distributions
 #
 
-  - name: upgrade all packages
+  - name: upgrade installed packages
     dnf: name=* state=latest
