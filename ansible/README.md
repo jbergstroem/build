@@ -33,6 +33,9 @@ These playbooks are available to you:
 
    # end: node.js template
    ```
+ - upgrade-packages.yml: Upgrades packages on all hosts. **Note**: this
+   is strongly advised to use in conjunction with `--limit`, such as
+   `--limit="test-*"`.
 
 ### Adding a host to the inventory
 
