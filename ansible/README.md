@@ -73,8 +73,7 @@ Each host needs a bit of metadata:
             will additionally make ansible try to become root for all
             commands run.
  - `alias=`: creates shorthand names for ssh convenience.
-
-Each host can also labels. More on that below.
+ - `labels=`: Each host can also labels. More on that below.
 
 #### Working with labels
 
