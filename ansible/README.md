@@ -26,16 +26,17 @@ $ ansible-playbook playbooks/jenkins-slave.yaml --limit "test-digitalocean-freeb
 
 These playbooks are available to you:
 
- - write-ssh-config.yml: Updates your ~/.ssh/config with hosts from
-   inventory.cfg if your ssh config has the correct template stubs:
+ - **write-ssh-config.yml**: Updates your ~/.ssh/config with hosts from
+   inventory.cfg if your ssh config contains these template stubs:
    ```bash
    # begin: node.js template
 
    # end: node.js template
    ```
- - upgrade-packages.yml: Upgrades packages on all hosts. **Note**: this
-   is strongly advised to use in conjunction with `--limit`, such as
-   `--limit="test-*"`.
+
+ - **upgrade-packages.yml**: Upgrades packages on all hosts.
+   **Note**: this is strongly advised to use in conjunction with `--limit`,
+   such as `--limit="test-*"`.
 
 ### Adding a host to the inventory
 
@@ -58,8 +59,8 @@ Each host must follow this naming convention:
 $group-$provider(_$optionalmeta)-$os(_$optionalmeta)-$architecture-$uid
 ```
 
-For more information, refer to other hosts in `inventory.cfg` or the [ansible
-plugin that is responsible for parsing it][1].
+For more information, refer to other hosts in `inventory.cfg` or the
+[ansible plugin that is responsible for parsing it][1].
 
 [1]: plugins/vars/parse_host.py
 
@@ -67,9 +68,11 @@ plugin that is responsible for parsing it][1].
 
 Each host needs a bit of metadata:
 
- - `ip=` (required): used both by ansible and placed in your ssh config.
- - `user=` (optional): only provided if ssh requires a non-root login.
- - `alias=` (optional): creates shorthand names for ssh convenience.
+ - (required) `ip=`: used both by ansible and placed in your ssh config.
+ - `user=`: only provide if ssh requires a non-root login. Passing this
+            will additionally make ansible try to become root for all
+            commands run.
+ - `alias=`: creates shorthand names for ssh convenience.
 
 Each host can also labels. More on that below.
 
@@ -80,8 +83,8 @@ Each host can also labels. More on that below.
 Labels are used in the jenkins environment. They're most often used when
 defining what workers should be part of a job.
 
-Each host gets at least a label based on os/arch, such as centos6-x64 or
-freebsd10-x86. If the machine has other intended uses, you can add more
+Each host gets at least a label based on os/arch, such as `centos6-x64` or
+`freebsd10-x86`. If the machine has other intended uses, you can add more
 labels, separated by commas; for instance:
 
 ```
@@ -111,27 +114,29 @@ Unsorted stuff of things we need to do/think about
       hosts (or set up a new jump host)
 - [ ] ubuntu systemd init needs different path (copy from gather_facts path?)
 - [ ] freebsd: replace quarterly with latest for packages
-- [ ] support host aliases in hostname config generator
+- [x] support host aliases in hostname config generator
 - [ ] avoid windows hosts in ssh generator
 - [ ] create command to check ccache statistics
 - [ ] xz,svn on all test boxes
-- [ ] add command to update all packages
+- [x] add command to update all packages
 - [x] use become instead of sudo
 - [ ] copy release (staging) keys to release machines
 - [ ] backup host: generate config, install rsnapshot
 - [x] ci vs ci-release.nodejs.org in init scripts
 - [ ] scaleway: authorized_keys2 since first is overridden at boot
 - [ ] switch to slaveLog for all jenkins instances lacking stdout redirection
+      (note: this depends on init!)
 - [x] release centos5 needs swap or more ram? (nope)
-- [ ] run service iptables-save persistent on build master
+- [x] run service iptables-save persistent on build master
+- [ ] add iptables-save-persistent to cron on ci hosts
 - [x] weekly cron job to update slave.jar? (nope, playbook)
 - [ ] make sure ::1 localhost exists in all hosts (#415)
 - [ ] [unencrypted host](https://git.io/v6H1z)
 - [ ] figure out how ansible parses group_vars since adding groups from
-      vars_plugins doesn't seem to make the vars get picked up (ansible 2.0)
+      vars_plugins doesn't seem to make the vars get picked up (ansible 2.1)
 - [x] set the hostname to `{{ inventory_hostname }}`
 - [ ] make exceptions for jump hosts when adding to the CI iptables firewall
 - [ ] when creating additional jenkins labels based on `labels=` add os/arch
-      as part of hte label
+      as part of hte label (ref: rvagg long irc talk see 2016-08-29 logs)
 - [ ] extract -Xmx128m to a variable should we need to increase worker ram
 - [ ] install monit for centos5 (too old for matching, point to pidfile)
