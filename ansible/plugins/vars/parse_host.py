@@ -99,19 +99,30 @@ class VarsModule(object):
 
         try:
             host.set_variable('labels', convert_labels(host.vars['labels']))
-
-            # convert our shorthand variables to something that Ansible prefers
-            host.set_variable('ansible_hostname', host.vars['ip'])
-            host.set_variable('ansible_username', host.vars['user'])
-            host.set_variable('ansible_port',     host.vars['port'])
-
-            # convenience: enable root for all hosts that requires
-            # a different ssh username
-            if 'user' in host.vars:
-                host.set_variable('ansible_become', True)
-
         except KeyError:
             pass
+
+        # convert our shorthand variables to something that Ansible prefers
+        try:
+            host.set_variable('ansible_host', host.vars['ip'])
+        except KeyError:
+            pass
+
+        try:
+            host.set_variable('ansible_user', host.vars['user'])
+        except KeyError:
+            pass
+
+        try:
+            host.set_variable('ansible_port', host.vars['port'])
+        except KeyError:
+            pass
+
+        # convenience: enable root for all hosts that requires
+        # a different ssh username
+        if 'user' in host.vars:
+            host.set_variable('ansible_become', 'true')
+
 
         return {}
 
