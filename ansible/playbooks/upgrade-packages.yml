@@ -15,16 +15,6 @@
         'pkgin': 'smartos',
       }
       template: "{{ os|match_key(pm, 'os') }}"
-#      pm: {
-#        'alpine':  'apk',
-#        'centos':  'yum',
-#        'debian':  'apt',
-#        'fedora':  'dnf',
-#        'freebsd': 'pkg',
-#        'smartos': 'pkgin',
-#        'ubuntu':  'apt'
-#      }
-#      template: "{{ pm|match_key(os, 'os') }}"
 
     tasks:
 
