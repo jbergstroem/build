@@ -5,7 +5,7 @@
 
 ### Getting started
 
-1. Install ansible 2.0 or newer: `brew install ansible`.
+1. Install ansible 2.1 or newer: `brew install ansible`.
 2. Read this document. All of it.
 3. Clone the node secrets repository (if you don't have access,
    ask anyone in the build group about it)
