@@ -124,12 +124,12 @@ Unsorted stuff of things we need to do/think about
 - [x] ci vs ci-release.nodejs.org in init scripts
 - [ ] scaleway: authorized_keys2 since first is overridden at boot
 - [ ] switch to slaveLog for all jenkins instances lacking stdout redirection
-      (note: this depends on init!)
+      (note: this depends on init type!)
 - [x] release centos5 needs swap or more ram? (nope)
 - [x] run service iptables-save persistent on build master
 - [ ] add iptables-save-persistent to cron on ci hosts
 - [x] weekly cron job to update slave.jar? (nope, playbook)
-- [ ] make sure ::1 localhost exists in all hosts (#415)
+- [x] make sure ::1 localhost exists in all hosts (#415)
 - [ ] [unencrypted host](https://git.io/v6H1z)
 - [ ] figure out how ansible parses group_vars since adding groups from
       vars_plugins doesn't seem to make the vars get picked up (ansible 2.1)

@@ -2,6 +2,6 @@ set logfile syslog
 set daemon 30
 
 check process jenkins
-  matching slave.jar
+  pidfile /var/run/jenkins/jenkins.pid
   start program = "/etc/init.d/jenkins start"
   stop program = "/etc/init.d/jenkins stop"

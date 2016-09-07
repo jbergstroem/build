@@ -1,0 +1,25 @@
+---
+
+#
+# variables shared in baselayout
+#
+
+  common_packages: [
+    'automake',
+    'bash',
+    'ccache',
+    'git',
+    'libtool',
+    'subversion',
+    'xz'
+  ]
+
+  freebsd: [
+    'gmake'
+  ]
+
+  smartos: [
+    'gcc48',
+    'gcc48-libs',
+    'gccmakedep'
+  ]
