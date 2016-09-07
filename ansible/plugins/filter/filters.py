@@ -23,12 +23,18 @@
 
 from ansible.errors import AnsibleFilterError
 
-def match_key(dictionary, value, key_name):
+def match_key(value, dictionary, feedback_name):
     for key, val in dictionary.iteritems():
-        if value.startswith(key):
-            return val
+        # yes, yes; we can lambda this but my old self in
+        # two years will cry having to understand
+        if type(val) is list:
+            for list_key in val:
+                if list_key.startswith(value):
+                    return key
+        elif value.startswith(val):
+            return key
     raise AnsibleFilterError(
-        "Couldn\'t find %s in supported %s types" % (value, key_name)
+        "Couldn\'t find %s in supported %s types" % (value, feedback_name)
     )
     return False
 

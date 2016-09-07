@@ -7,15 +7,24 @@
   - hosts: all
     vars:
       pm: {
-        'alpine':  'apk',
-        'centos':  'yum',
-        'debian':  'apt',
-        'fedora':  'dnf',
-        'freebsd': 'pkg',
-        'smartos': 'pkgin',
-        'ubuntu':  'apt'
+        'apk': 'alpine',
+        'yum': 'centos',
+        'apt': ['debian', 'ubuntu'],
+        'dnf': 'fedora',
+        'pkg': 'freebsd',
+        'pkgin': 'smartos',
       }
-      template: "{{ pm|match_key(os, 'os') }}"
+      template: "{{ os|match_key(pm, 'os') }}"
+#      pm: {
+#        'alpine':  'apk',
+#        'centos':  'yum',
+#        'debian':  'apt',
+#        'fedora':  'dnf',
+#        'freebsd': 'pkg',
+#        'smartos': 'pkgin',
+#        'ubuntu':  'apt'
+#      }
+#      template: "{{ pm|match_key(os, 'os') }}"
 
     tasks:
 
