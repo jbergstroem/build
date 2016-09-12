@@ -1,0 +1,16 @@
+---
+
+#
+#
+#
+
+  pm: {
+    'apk': 'alpine',
+    'yum': 'centos',
+    'apt': ['debian', 'ubuntu'],
+    'dnf': 'fedora',
+    'pkg': 'freebsd',
+    'pkgin': 'smartos',
+  }
+  # see plugins/filter/filters.py -- second arg is just feedback
+  template: "{{ os|match_key(pm, 'os') }}"

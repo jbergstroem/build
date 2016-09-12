@@ -5,20 +5,8 @@
 #
 
   - hosts: all
-    vars:
-      pm: {
-        'apk': 'alpine',
-        'yum': 'centos',
-        'apt': ['debian', 'ubuntu'],
-        'dnf': 'fedora',
-        'pkg': 'freebsd',
-        'pkgin': 'smartos',
-      }
-      # see plugins/filter/filters.py -- second arg is just feedback
-      template: "{{ os|match_key(pm, 'os') }}"
+    roles:
+      - package-upgrade
 
     tasks:
-
-    - name: include os-specific package manager
-      include: "../partials/packages/{{ template }}.yml"
-      failed_when: template is False
+  #    - name: place init script
