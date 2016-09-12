@@ -33,9 +33,9 @@ valid = {
   'type': ('infra', 'lint', 'release', 'test'),
 
   # providers - validated for consistency
-  'provider': ('azure', 'digitalocean', 'joyent', 'ibm', 'nodesource',
-               'msft', 'osuosl', 'rackspace', 'scaleway', 'softlayer',
-               'voxer')
+  'provider': ('azure', 'digitalocean', 'joyent', 'ibm', 'linuxonecc',
+               'mininodes', 'msft', 'nodesource', 'osuosl', 'rackspace',
+               'scaleway', 'softlayer', 'voxer')
 }
 
 def parse_host(host):
@@ -94,7 +94,7 @@ class VarsModule(object):
             for k,v in parsed_host.iteritems():
                 host.set_variable(k, v[0] if type(v) is dict else v)
         except Exception, e:
-            errors.AnsibleError('Failed to parse host: %s' % e)
+            raise errors.AnsibleError('Failed to parse host: %s' % e)
 
         try:
             host.set_variable('labels', convert_labels(host.vars['labels']))
