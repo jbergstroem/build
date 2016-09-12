@@ -7,8 +7,8 @@
 - hosts: test
   roles:
     - bootstrap
-    - package-upgrade
     - baselayout
+    - package-upgrade
 
   tasks:
 #    - name: place init script
