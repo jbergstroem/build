@@ -1,10 +1,10 @@
 ---
 
 #
-# Set up a jenkins worker! Muy bueno
+# set up a jenkins worker -- muy bueno!
 #
 
-- hosts: test, lint
+- hosts: test
   roles:
     - bootstrap
     - baselayout

@@ -1,0 +1,16 @@
+---
+
+#
+# create a jenkins host
+#
+
+- hosts:
+  - infra-digitalocean-ubuntu14-x64-1
+  - infra-softlayer-ubuntu14-x64-1
+
+  roles:
+  - bootstrap
+  - baselayout
+
+  tasks:
+#    - name: place init script
