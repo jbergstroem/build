@@ -5,14 +5,16 @@
 
 ### Getting started
 
-1. Install ansible 2.1 or newer: `brew install ansible`.
-2. Read this document. All of it.
-3. Clone the node secrets repository (if you don't have access,
-   ask anyone in the build group about it)
+1. Install Ansible 2.1.1 or newer: `brew install ansible`.
+2. Read this document.
+3. Clone the node secrets repository (if you don't have access ask anyone
+   in the [build group][1]).
 4. Copy the private keys (check the secrets repo for instructions) to your
    `~/.ssh` folder. Make sure they have the same name. What keys are available
    to you depends on what role you have. In order to create new vm's and hook
    them up to CI you have to be part of the `infra` group.
+
+[1]: https://github.com/nodejs/build#people
 
 ### Getting things done
 
@@ -21,12 +23,20 @@ running one (or multiple) of below playbooks. If you're adding a new host,
 limiting ansible ot just running on that host is probably quicker:
 
 ```bash
-$ ansible-playbook playbooks/jenkins-slave.yaml --limit "test-digitalocean-freebsd10-x64-1"
+$ ansible-playbook playbooks/create-jenkins-worker.yaml \
+    --limit "test-digitalocean-freebsd10-x64-1"
 ```
 
 These playbooks are available to you:
 
- - **write-ssh-config.yml**: Updates your ~/.ssh/config with hosts from
+  - **upgrade-packages.yml**: Upgrades packages on all hosts.
+    *Note*: this is strongly advised to use in conjunction with `--limit`,
+    such as `--limit="test-*"`.
+
+  - **validate-hostname.yml**: Validates hostnames. Use this if you want to
+    make sure the hostname you're adding is ok.
+
+  - **write-ssh-config.yml**: Updates your ~/.ssh/config with hosts from
    inventory.cfg if your ssh config contains these template stubs:
    ```bash
    # begin: node.js template
@@ -34,9 +44,8 @@ These playbooks are available to you:
    # end: node.js template
    ```
 
- - **upgrade-packages.yml**: Upgrades packages on all hosts.
-   **Note**: this is strongly advised to use in conjunction with `--limit`,
-   such as `--limit="test-*"`.
+If something isn't working, have a look at the playbooks or roles. They
+are well documented and should (hopefully) be easy to improve.
 
 ### Adding a host to the inventory
 
@@ -60,9 +69,9 @@ $group-$provider(_$optionalmeta)-$os(_$optionalmeta)-$architecture-$uid
 ```
 
 For more information, refer to other hosts in `inventory.cfg` or the
-[ansible plugin that is responsible for parsing it][1].
+[ansible plugin that is responsible for parsing it][2].
 
-[1]: plugins/vars/parse_host.py
+[2]: plugins/vars/parse_host.py
 
 #### Metadata
 
@@ -98,10 +107,10 @@ such as `pre-1-release`.
 #### Jump hosts
 
 If your host is hidden behind a proxy or jump host, create a new group in the
-meta section and add a jump command similar to [`group_vars/tunnel_rvagg`][2].
+meta section and add a jump command similar to [`group_vars/tunnel_rvagg`][3].
 Avoid passing `-J` since it requires a more recent version of ssh.
 
-[2]: group_vars/tunnel_rvagg
+[3]: group_vars/tunnel_rvagg
 
 
 ### TODO
@@ -139,3 +148,4 @@ Unsorted stuff of things we need to do/think about
       as part of hte label (ref: rvagg long irc talk see 2016-08-29 logs)
 - [ ] extract -Xmx128m to a variable should we need to increase worker ram
 - [ ] install monit for centos5 (too old for matching, point to pidfile)
+- [ ] replace the python interpreter injection stuff once https://github.com/ansible/ansible/pull/11810 lands
