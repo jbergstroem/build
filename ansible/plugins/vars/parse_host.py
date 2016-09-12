@@ -23,18 +23,20 @@
 
 from ansible import errors, inventory
 
-# taken from nodejs/node.git: ./configure
-valid_arch = ('arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 'x32',
-              'x64', 'x86', 's390', 's390x')
 
-# valid roles - add as necessary
-valid_types = ('infra', 'lint', 'release', 'test')
+valid = {
+  # taken from nodejs/node.git: ./configure
+  'arch': ('arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 'x32',
+              'x64', 'x86', 's390', 's390x'),
 
-# providers - validated for consistency
-valid_providers = ('azure', 'digitalocean', 'joyent', 'ibm', 'nodesource',
-                   'msft', 'osuosl', 'rackspace', 'scaleway', 'softlayer',
-                   'voxer')
+  # valid roles - add as necessary
+  'type': ('infra', 'lint', 'release', 'test'),
 
+  # providers - validated for consistency
+  'provider': ('azure', 'digitalocean', 'joyent', 'ibm', 'nodesource',
+               'msft', 'osuosl', 'rackspace', 'scaleway', 'softlayer',
+               'voxer')
+}
 
 def parse_host(host):
     """Parses a host and validates it against our naming conventions"""
@@ -44,17 +46,15 @@ def parse_host(host):
 
     expected = ['type', 'provider', 'os', 'arch', 'uid']
 
+    if len(info) != 5:
+        raise errors.AnsibleError('Host format is invalid: %s,', host)
+
     for key, item in enumerate(expected):
         hostinfo[item] = has_metadata(info[key])
 
-    if hostinfo['type'] not in valid_types:
-        raise errors.AnsibleError('Invalid type: ' + hostinfo['type'])
-
-    if hostinfo['provider'] not in valid_providers:
-        raise errors.AnsibleError('Invalid provider: ' + hostinfo['provider'])
-
-    if hostinfo['arch'] not in valid_arch:
-        raise errors.AnsibleError('Invalid arch: ' + hostinfo['arch'])
+    for item in ['type', 'provider', 'arch']:
+        if hostinfo[item] not in valid[item]:
+            raise errors.AnsibleError('Invalid %s: %s' % (item, hostinfo[item]))
 
     return hostinfo
 
@@ -67,13 +67,13 @@ def has_metadata(info):
     metadata = info.split('_', 1)
 
     try:
-        os = metadata[0]
+        key = metadata[0]
         metadata = metadata[1]
     except IndexError:
         metadata = False
-        os = info
+        key = info
 
-    return [os, metadata] if metadata else info
+    return key if metadata else info
 
 def convert_labels(labels):
     """Converts labels from a comma separated string to a list"""
@@ -93,7 +93,6 @@ class VarsModule(object):
             parsed_host = parse_host(host.get_name())
             for k,v in parsed_host.iteritems():
                 host.set_variable(k, v[0] if type(v) is dict else v)
-
         except Exception, e:
             errors.AnsibleError('Failed to parse host: %s' % e)
 
@@ -103,26 +102,18 @@ class VarsModule(object):
             pass
 
         # convert our shorthand variables to something that Ansible prefers
-        try:
-            host.set_variable('ansible_host', host.vars['ip'])
-        except KeyError:
-            pass
+        convenience = { 'host': 'ip', 'user': 'user', 'port': 'port' }
+        for key, value in convenience.items():
+            try:
+                index = "ansible_%s".format(key)
+                host.set_variable(index, host.vars[value])
+            except KeyError:
+                pass
 
-        try:
-            host.set_variable('ansible_user', host.vars['user'])
-        except KeyError:
-            pass
-
-        try:
-            host.set_variable('ansible_port', host.vars['port'])
-        except KeyError:
-            pass
-
-        # convenience: enable root for all hosts that requires
-        # a different ssh username
+        # convenience: enable root for all hosts that requires a different
+        # ssh username. User directive is already in config.
         if 'user' in host.vars:
             host.set_variable('ansible_become', 'true')
-
 
         return {}
 

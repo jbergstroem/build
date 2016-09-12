@@ -29,7 +29,7 @@ def match_key(value, dictionary, feedback_name):
         # two years will cry having to understand
         if type(val) is list:
             for list_key in val:
-                if list_key.startswith(value):
+                if value.startswith(list_key):
                     return key
         elif value.startswith(val):
             return key
@@ -38,11 +38,14 @@ def match_key(value, dictionary, feedback_name):
     )
     return False
 
+def starts_with(value, query):
+    return value.startswith(query)
 
 class FilterModule(object):
     ''' Query filter '''
 
     def filters(self):
         return {
-            'match_key': match_key
+            'match_key': match_key,
+            'startswith': starts_with
         }
