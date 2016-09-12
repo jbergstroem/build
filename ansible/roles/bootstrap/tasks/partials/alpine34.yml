@@ -10,10 +10,10 @@
     register: has_python
 
   - name: update package database
-    raw: apk update
     when: has_python.rc == 1
+    raw: apk update
     register: has_updated_alpine34_package_database
 
   - name: install python
-    raw: apk add python
     when: has_python.rc == 1
+    raw: apk add python

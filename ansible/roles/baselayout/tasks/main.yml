@@ -4,10 +4,11 @@
 # common tasks suitable for all machines
 #
 
-  - name: collect host info
-    gather_facts: gather_subset=hardware
+  - name: gather facts
+    setup: filter=ansible_processor_count
 
   - name: set hostname
+    when: not "{{ os|startswith('smartos') }}"
     hostname: name="{{ inventory_hostname }}"
 
   - name: create the active user
@@ -26,6 +27,3 @@
       regex: '^(\s+)url\:'
       state: present
       line: '  url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest",'
-
-  - name: run 'upgrade packages' playbook
-    include: "../upgrade-packages.yml"

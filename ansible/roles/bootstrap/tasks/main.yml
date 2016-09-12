@@ -9,5 +9,5 @@
     register: has_template
 
   - name: include os-specific tasks
-    include: "{{ template }}"
     when: has_template.stat.exists
+    include: "{{ template }}"

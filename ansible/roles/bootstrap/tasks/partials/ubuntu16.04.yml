@@ -15,5 +15,5 @@
     register: has_aptitude
 
   - name: install python and aptitude
-    raw: apt install -y python-minimal aptitude
     when: has_python.rc == 1 or has_aptitude.rc == 1
+    raw: apt install -y python-minimal aptitude
