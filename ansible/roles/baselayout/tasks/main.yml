@@ -24,6 +24,6 @@
     when: "{{ os|startswith('freebsd') }}"
     lineinfile:
       dest: /etc/pkg/FreeBSD.conf
-      regex: '^(\s+)url\:'
+      regexp: '^(\s+)url\:'
       state: present
       line: '  url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest",'
