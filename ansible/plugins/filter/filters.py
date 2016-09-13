@@ -23,7 +23,7 @@
 
 from ansible.errors import AnsibleFilterError
 
-def match_key(value, dictionary, feedback_name):
+def match_key(value, dictionary, feedback_name='os'):
     for key, val in dictionary.iteritems():
         # yes, yes; we can lambda this but my old self in
         # two years will cry having to understand

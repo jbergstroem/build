@@ -12,6 +12,7 @@
   - name: update package database
     when: has_python.rc == 1
     raw: apk update
+    # hopefully used to avoid updating packages twice
     register: has_updated_alpine34_package_database
 
   - name: install python

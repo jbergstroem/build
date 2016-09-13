@@ -13,4 +13,4 @@
     'pkgin': 'smartos',
   }
   # see plugins/filter/filters.py -- second arg is just feedback
-  template: "{{ os|match_key(pm, 'os') }}"
+  template: "{{ os|match_key(pm) }}"

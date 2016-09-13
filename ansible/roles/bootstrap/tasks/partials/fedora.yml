@@ -3,6 +3,7 @@
 #
 # a fedora bootstrap - similar between majors which is why its merged
 # @TODO: figure out which version requires what and make it conditional
+#
 
   - name: check for python
     raw: stat /usr/bin/python
