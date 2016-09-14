@@ -1,0 +1,10 @@
+---
+
+#
+# alpine34 repos - these are required in bootstrap so they're probably in place
+#
+
+- name: add package repos
+  lineinfile: dest=/etc/apk/repositories create=yes line="{{ item }}"
+  with_items: "{{ repos['alpine34'] }}"
+  when: not has_added_package_repo

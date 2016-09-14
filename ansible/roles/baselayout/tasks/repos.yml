@@ -1,0 +1,13 @@
+---
+
+#
+# adds package repositories
+#
+
+  - name: check if repos are needed
+    local_action: stat path="{{ repo_path }}"
+    register: has_repos
+
+  - name: include os-specific repos
+    when: has_repos.stat.exists
+    include: "{{ repo_path }}"

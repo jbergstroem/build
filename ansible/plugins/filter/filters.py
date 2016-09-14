@@ -23,7 +23,7 @@
 
 from ansible.errors import AnsibleFilterError
 
-def match_key(value, dictionary, feedback_name='os'):
+def match_key(value, dictionary, raise_error=True, feedback_name='os'):
     for key, val in dictionary.iteritems():
         # yes, yes; we can lambda this but my old self in
         # two years will cry having to understand
@@ -33,9 +33,10 @@ def match_key(value, dictionary, feedback_name='os'):
                     return key
         elif value.startswith(val):
             return key
-    raise AnsibleFilterError(
-        "Couldn\'t find %s in supported %s types" % (value, feedback_name)
-    )
+    if raise_error:
+        raise AnsibleFilterError(
+            "Couldn\'t find %s in supported %s types" % (value, feedback_name)
+        )
     return False
 
 def starts_with(value, query):

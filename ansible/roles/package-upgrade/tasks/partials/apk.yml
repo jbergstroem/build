@@ -5,4 +5,4 @@
 #
 
  - name: upgrade installed packages
-   raw: apk -U -q  upgrade
+   raw: apk -U -q upgrade

@@ -121,7 +121,7 @@ Unsorted stuff of things we need to do/think about
 - [ ] avoid messing with keys on machines that has multiple usage such as jump
       hosts (or set up a new jump host)
 - [ ] ubuntu systemd init needs different path (copy from gather_facts path?)
-- [ ] freebsd: replace quarterly with latest for packages
+- [x] freebsd: replace quarterly with latest for packages
 - [x] support host aliases in hostname config generator
 - [ ] avoid windows hosts in ssh generator
 - [ ] create command to check ccache statistics

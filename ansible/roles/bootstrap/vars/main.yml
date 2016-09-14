@@ -9,4 +9,10 @@ shared: {
 }
 
 # stat with local_action doesn't respect relative paths/cwd, `role_path`
-template: "{{ role_path }}/tasks/partials/{{ os|match_key(shared) | default(os) }}"
+# also, can't figure out how to strip multiline strings (>-)
+template: "{{ role_path }}/tasks/partials/{{ os|match_key(shared, raise_error=False)|default(os, true) }}.yml"
+
+alpine34_repos: [
+  'https://dl-3.alpinelinux.org/alpine/edge/main',
+  'https://dl-3.alpinelinux.org/alpine/edge/community' # java lives here
+]

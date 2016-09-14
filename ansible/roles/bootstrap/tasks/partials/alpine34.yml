@@ -11,10 +11,26 @@
 
   - name: update package database
     when: has_python.rc == 1
-    raw: apk update
-    # hopefully used to avoid updating packages twice
-    register: has_updated_alpine34_package_database
+    raw: apk update -q
 
   - name: install python
     when: has_python.rc == 1
+    raw: apk add python
+
+  - name: add package repos
+    lineinfile:
+      dest: /etc/apk/repositories
+      create: yes
+      line: "{{ item }}"
+      state: present
+    with_items: "{{ alpine34_repos }}"
+    register: has_added_package_repo
+
+  - name: check for shadow
+    raw: apk info -q shadow
+    failed_when: has_shadow.rc > 1
+    register: has_shadow
+
+  - name: install shadow
+    when: has_shadow.rc == 1
     raw: apk add python

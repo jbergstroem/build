@@ -5,10 +5,11 @@
 #
 
   - name: gather facts
-    setup: filter=ansible_processor_count
+    setup: gather_subset=hardware
 
   - name: set hostname
-    when: not "{{ os|startswith('smartos') }}"
+    # setting hostname is not supported for all os'es
+    when: not os|startswith("alpine") or not os|startswith("smartos")
     hostname: name="{{ inventory_hostname }}"
 
   - name: create the active user
@@ -20,10 +21,5 @@
       state: present
       line:  "::1 localhost.localdomain localhost"
 
-  - name: update freebsd package source
-    when: "{{ os|startswith('freebsd') }}"
-    lineinfile:
-      dest: /etc/pkg/FreeBSD.conf
-      regexp: '^(\s+)url\:'
-      state: present
-      line: '  url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest",'
+  - include: repos.yml
+  - include: ntp.yml
