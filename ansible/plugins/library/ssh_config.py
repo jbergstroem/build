@@ -43,12 +43,12 @@ host_template = \
 """
 {%- for host, metadata in hosts|dictsort: -%}
 {%- if metadata.ip -%}
-{%- set ssh_arg = metadata.ansible_ssh_common_args %}
+{%- set ssh_arg = metadata.proxy_command %}
 Host {{ host }} {{ metadata.alias }}
   HostName {{ metadata.ip }}
   IdentityFile {{ metadata.ansible_ssh_private_key_file }}
   User {{ metadata.user or "root" }}
-{{ ssh_arg|multi_replace(replace_ssh_args)|indent(2, true) + '\n' if ssh_arg }}
+{{ '  ProxyCommand ' + ssh_arg|multi_replace(replace_ssh_args) + '\n' if ssh_arg }}
  {%- endif -%}
 {%- endfor -%}
 """
