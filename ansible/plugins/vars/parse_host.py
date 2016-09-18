@@ -105,7 +105,7 @@ class VarsModule(object):
         convenience = { 'host': 'ip', 'user': 'user', 'port': 'port' }
         for key, value in convenience.items():
             try:
-                index = "ansible_%s".format(key)
+                index = "ansible_{}".format(key)
                 host.set_variable(index, host.vars[value])
             except KeyError:
                 pass

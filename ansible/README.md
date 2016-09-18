@@ -150,3 +150,4 @@ Unsorted stuff of things we need to do/think about
 - [ ] install monit for centos5 (too old for matching, point to pidfile)
 - [ ] replace the python interpreter injection stuff once https://github.com/ansible/ansible/pull/11810 lands
 - [ ] ask for secret if host_vars is not found (try to bubble up too)
+- [ ] create a per-os variable for ccache libexec path
