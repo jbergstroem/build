@@ -44,17 +44,18 @@
 
 
     - name: read local pubkey
+      run_one: true
       local_action:
         set_fact pubkey="{{ lookup('file', '~/.ssh/{{ key }}.pub' ) }}"
 
     - name: backup authorized_keys
       raw: cp ~/.ssh/authorized_keys ~/.ssh/.authorized_keys.backup
 
-    # why raw here?
-    # 1. tilde expansions can't be relied upon, making lineinfile
-    #    (with regex) unsuitable.
-    # 2. authorized_keys doesn't support modifying the matching process
-    #    (we want to match on comment) and forces user to be passed
+      # why raw here?
+      # 1. tilde expansions can't be relied upon, making lineinfile
+      #    (with regex) unsuitable.
+      # 2. authorized_keys doesn't support modifying the matching process
+      #    (we want to match on comment) and forces user to be passed
     - name: replace key at remote host
       raw: >
         sed -i -e 's|.*{{ type }}\@build.nodejs.org.*|{{ pubkey }}|'
