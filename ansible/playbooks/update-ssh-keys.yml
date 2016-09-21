@@ -1,0 +1,71 @@
+---
+
+#
+# updates an ssh key on the remote host
+#
+# the following assumptions are made:
+# 1. the keys available to you will be stored in ~/.ssh/
+#    and named accordingly:
+#
+#    `nodejs_build_$machine_type{,.pub}` where $machine_type correlates to
+#    machine prefix such as test- infra- lint- or release-.
+#
+# 2. pubkey needs the email suffixed to be formatted in a similar fashion:
+#
+#    `$machine_type@build.nodejs.org`
+#
+# 3. the key needs to be rsa with at least a 4096 key length
+#
+
+- hosts: all
+
+  vars:
+    key: "nodejs_build_{{ type }}"
+
+  tasks:
+    - name: verify that local {,pub}key exists
+      local_action: stat path="{{ item }}"
+      run_once: true
+      with_items:
+        - "~/.ssh/{{ key }}"
+        - "~/.ssh/{{ key }}.pub"
+
+    - name: validate local key length
+      local_action: raw ssh-keygen -lf ~/.ssh/{{ key }} | cut -f1 -d " "
+      run_once: true
+      register: key_length
+      failed_when: "key_length.stdout_lines[0]|int < 4096"
+
+    - name: verify local pubkey comment/email format
+      local_action: raw grep "{{ type }}@build.nodejs.org" ~/.ssh/{{ key }}.pub
+      run_once: true
+      register: verify_email
+      failed_when: "verify_email.rc != 0"
+
+
+    - name: read local pubkey
+      local_action:
+        set_fact pubkey="{{ lookup('file', '~/.ssh/{{ key }}.pub' ) }}"
+
+    - name: backup authorized_keys
+      raw: cp ~/.ssh/authorized_keys ~/.ssh/.authorized_keys.backup
+
+    # why raw here?
+    # 1. tilde expansions can't be relied upon, making lineinfile
+    #    (with regex) unsuitable.
+    # 2. authorized_keys doesn't support modifying the matching process
+    #    (we want to match on comment) and forces user to be passed
+    - name: replace key at remote host
+      raw: >
+        sed -i -e 's|.*{{ type }}\@build.nodejs.org.*|{{ pubkey }}|'
+        ~/.ssh/authorized_keys
+      register: replaced_key
+      failed_when: "replaced_key.rc != 0"
+
+    - name: remove backup
+      when: "replaced_key.rc == 0"
+      raw: rm ~/.ssh/.authorized_keys.backup
+
+    - name: rollback authorized_keys
+      when: "replaced_key.rc != 0"
+      raw: mv ~/.ssh/.authorized_keys.backup ~/.ssh/authorized_keys
