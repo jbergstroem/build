@@ -44,14 +44,14 @@
 
 
     - name: read local pubkey
-      run_one: true
+      run_once: true
       local_action:
         set_fact pubkey="{{ lookup('file', '~/.ssh/{{ key }}.pub' ) }}"
 
     - name: backup authorized_keys
       raw: cp ~/.ssh/authorized_keys ~/.ssh/.authorized_keys.backup
 
-    - name: replace key at remote host
+    - name: replace pubkey in authorized_keys
       # why raw here?
       # 1. tilde expansions can't be relied upon, making lineinfile
       #    (with regex) unsuitable.
