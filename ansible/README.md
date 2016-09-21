@@ -33,6 +33,10 @@ These playbooks are available to you:
     *Note*: this is strongly advised to use in conjunction with `--limit`,
     such as `--limit="test-*"`.
 
+  - **update-ssh-keys.yml**: Updates (and verifies) {,pub}keys both locally
+    and remote. This is useful if you want to cycle keys. This should be used
+    sparingly and in 99% of your cases together with `--limit`.
+
   - **validate-hostname.yml**: Validates hostnames. Use this if you want to
     make sure the hostname you're adding is ok.
 
