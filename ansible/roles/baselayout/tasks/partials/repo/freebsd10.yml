@@ -1,0 +1,12 @@
+---
+
+#
+# get regular instead of quarterly updates
+#
+
+- name: add package repos
+  lineinfile:
+    dest: /etc/pkg/FreeBSD.conf
+    regexp: '^(\s+)url\:'
+    state: present
+    line: '  url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest",'
