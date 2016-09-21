@@ -51,12 +51,14 @@
     - name: backup authorized_keys
       raw: cp ~/.ssh/authorized_keys ~/.ssh/.authorized_keys.backup
 
+    - name: replace key at remote host
       # why raw here?
       # 1. tilde expansions can't be relied upon, making lineinfile
       #    (with regex) unsuitable.
       # 2. authorized_keys doesn't support modifying the matching process
-      #    (we want to match on comment) and forces user to be passed
-    - name: replace key at remote host
+      #    (we want to match on comment) and forces user to be passed.
+      #    we're lazily relying on tilde here to avoid juggling become_user
+      #    and ssh user.
       raw: >
         sed -i -e 's|.*{{ type }}\@build.nodejs.org.*|{{ pubkey }}|'
         ~/.ssh/authorized_keys
