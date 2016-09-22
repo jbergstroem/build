@@ -19,34 +19,36 @@
 
 - hosts: all
 
-  vars:
-    key: "nodejs_build_{{ type }}"
+  vars_prompt:
+    - name: key
+      prompt: path to new {,pub}key
+      private: false
 
   tasks:
-    - name: verify that local {,pub}key exists
+    - name: verify that the new {,pub}key exists
       local_action: stat path="{{ item }}"
       run_once: true
       with_items:
-        - "~/.ssh/{{ key }}"
-        - "~/.ssh/{{ key }}.pub"
+        - "{{ key }}"
+        - "{{ key }}.pub"
 
-    - name: validate local key length
-      local_action: raw ssh-keygen -lf ~/.ssh/{{ key }} | cut -f1 -d " "
+    - name: validate new key length
+      local_action: raw ssh-keygen -lf {{ key }} | cut -f1 -d " "
       run_once: true
       register: key_length
       failed_when: "key_length.stdout_lines[0]|int < 4096"
 
-    - name: verify local pubkey comment/email format
-      local_action: raw grep "{{ type }}@build.nodejs.org" ~/.ssh/{{ key }}.pub
+    - name: verify new pubkey comment/email format
+      local_action: raw grep "{{ type }}@build.nodejs.org" {{ key }}.pub
       run_once: true
       register: verify_email
       failed_when: "verify_email.rc != 0"
 
 
-    - name: read local pubkey
+    - name: read new pubkey
       run_once: true
       local_action:
-        set_fact pubkey="{{ lookup('file', '~/.ssh/{{ key }}.pub' ) }}"
+        set_fact pubkey="{{ lookup('file', '{{ key }}.pub' ) }}"
 
     - name: backup authorized_keys
       raw: cp ~/.ssh/authorized_keys ~/.ssh/.authorized_keys.backup
