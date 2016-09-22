@@ -5,7 +5,7 @@
 
 ### Getting started
 
-1. Install Ansible 2.1.1 or newer: `brew install ansible`.
+1. Install Ansible 2.1.1.0 or newer: `brew install ansible`.
 2. Read this document.
 3. Clone the node secrets repository (if you don't have access ask anyone
    in the [build group][1]).
@@ -23,7 +23,7 @@ running one (or multiple) of below playbooks. If you're adding a new host,
 limiting ansible ot just running on that host is probably quicker:
 
 ```bash
-$ ansible-playbook playbooks/create-jenkins-worker.yaml \
+$ ansible-playbook playbooks/create-jenkins-worker.yml \
     --limit "test-digitalocean-freebsd10-x64-1"
 ```
 
@@ -155,3 +155,4 @@ Unsorted stuff of things we need to do/think about
 - [ ] replace the python interpreter injection stuff once https://github.com/ansible/ansible/pull/11810 lands
 - [ ] ask for secret if host_vars is not found (try to bubble up too)
 - [ ] create a per-os variable for ccache libexec path
+- [ ] follow up ansible upstream wrt hostname support for smartos/alpine
