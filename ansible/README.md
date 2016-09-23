@@ -69,7 +69,7 @@ lead to unwanted consequences.
 Each host must follow this naming convention:
 
 ```
-$group-$provider(_$optionalmeta)-$os(_$optionalmeta)-$architecture-$uid
+$group-$provider(_$optionalmeta)-$os-$architecture(_$optionalmeta)-$uid
 ```
 
 For more information, refer to other hosts in `inventory.cfg` or the
@@ -156,3 +156,4 @@ Unsorted stuff of things we need to do/think about
 - [ ] ask for secret if host_vars is not found (try to bubble up too)
 - [ ] create a per-os variable for ccache libexec path
 - [ ] follow up ansible upstream wrt hostname support for smartos/alpine
+- [ ] check ansible version and bail if too old
