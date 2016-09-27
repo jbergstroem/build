@@ -158,6 +158,4 @@ Unsorted stuff of things we need to do/think about
 - [ ] ask for secret if host_vars is not found (try to bubble up too)
 - [ ] create a per-os variable for ccache libexec path
 - [ ] follow up ansible upstream wrt hostname support for smartos/alpine
-- [ ] check ansible version and bail if too old
-- [ ] try to use ansbile's yaml by messing with pythonpath
 - [ ] make `nodejs_yaml` a class and support `--host`
