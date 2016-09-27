@@ -76,7 +76,7 @@ Each host must follow this naming convention:
 $type-$provider(_$optionalmeta)-$os-$architecture(_$optionalmeta)-$uid
 ```
 
-For more information, refer to other hosts in `inventory.yml` or the
+For more information refer to other hosts in `inventory.yml` or the
 [ansible plugin that is responsible for parsing it][2].
 
 [2]: plugins/inventory/nodejs_yaml.py
@@ -87,8 +87,8 @@ Each host needs a bit of metadata:
 
  - (required) `ip`: used both by ansible and placed in your ssh config.
  - `user`: only provide if ssh requires a non-root login. Passing this
-            will additionally make ansible try to become root for all
-            commands run.
+           will additionally make ansible try to become root for all
+           commands executed.
  - `alias`: creates shorthand names for ssh convenience.
  - `labels`: Each host can also labels. More on that below.
 
@@ -107,7 +107,7 @@ labels, for instance:
   debian8-x64-1: {ip:1.2.3.4, labels: [foo, bar]}
 ```
 
-There are also labels that are only used in the release environment,
+There are also labels that are only used in the release environment
 such as `pre-1-release`.
 
 #### Adding extra options to a host
@@ -117,8 +117,8 @@ freeform and are passed to ansible. One example is adding a proxycommand
 configuration to hosts at NodeSource since they sit behind a jumphost.
 
 **Note**: We currently can't use ansible's built-in support for `proxy_command`
-          since that will enable the `paramiko` connection plugin, disregarding
-          our other ssh-specific options.
+          since that will enable the `paramiko` connection plugin, disregard
+          other ssh-specific options.
 
 
 
