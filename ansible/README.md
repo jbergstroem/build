@@ -56,6 +56,15 @@ add your host in the list (alphabetical order). Your host can start with an
 optional sponsor - for instance `rvagg-debian7-arm_pi1p-1` - which expands
 into `test-nodesource_rvagg-debian7-arm_pi1p-1`.
 
+Since we use yaml, we can abstract away `$type` and `$provider` by creating
+subelements:
+
+```yaml
+ - test:
+   - digitalocean:
+       debian8-x64-1: {ip: 1.2.3.4}
+```
+
 Make sure you follow the naming convention. There are scripts in place that
 will throw errors if you don't. Using an incorrect convention will likely
 lead to unwanted consequences.
@@ -66,15 +75,6 @@ Each host must follow this naming convention:
 
 ```
 $type-$provider(_$optionalmeta)-$os-$architecture(_$optionalmeta)-$uid
-```
-
-Since we use yaml, we can abstract away `$type` and `$provider` by creating
-subelements:
-
-```yaml
- - test:
-   - digitalocean:
-       debian8-x64-1: {ip: 1.2.3.4}
 ```
 
 For more information, refer to other hosts in `inventory.yml` or the
