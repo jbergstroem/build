@@ -27,10 +27,10 @@ from jinja2 import Environment, Template, filters
 import os
 import re
 
-pre_match  = "# begin: node.js template"
-post_match = "# end: node.js template"
-match      = re.compile(r"^" + re.escape(pre_match) +
-                        "(.*)" + re.escape(post_match),
+pre_match  = '# begin: node.js template'
+post_match = '# end: node.js template'
+match      = re.compile(r'^' + re.escape(pre_match) +
+                        '(.*)' + re.escape(post_match),
                         flags=re.DOTALL|re.MULTILINE)
 
 replace_ssh_args = {
@@ -40,18 +40,18 @@ replace_ssh_args = {
 }
 
 host_template = \
-"""
-{%- for host, metadata in hosts|dictsort: -%}
-{%- if metadata.ip -%}
+'''
+{%- for host, metadata in hosts|dictsort -%}
+{%- if metadata.ansible_host and not metadata.is_win -%}
 {%- set ssh_arg = metadata.ansible_ssh_common_args %}
 Host {{ host }} {{ metadata.alias }}
-  HostName {{ metadata.ip }}
+  HostName {{ metadata.ansible_host }}
   IdentityFile {{ metadata.ansible_ssh_private_key_file }}
-  User {{ metadata.user or "root" }}
+  User {{ metadata.user or 'root' }}
 {{ '  ' + ssh_arg|multi_replace(replace_ssh_args) + '\n' if ssh_arg }}
  {%- endif -%}
 {%- endfor -%}
-"""
+'''
 
 def multi_replace(content, to_replace):
     for key, val in to_replace.iteritems():
@@ -72,13 +72,13 @@ def render_template(hosts):
 def main():
     module = AnsibleModule(
         argument_spec = {
-            "path": {
-                "required": True,
-                "type": "str",
+            'path': {
+                'required': True,
+                'type': 'str',
             },
-            "hostinfo": {
-                "required": True,
-                "type": "dict",
+            'hostinfo': {
+                'required': True,
+                'type': 'dict',
             }
         }
     )
@@ -90,14 +90,14 @@ def main():
             contents = f.read()
         f.close()
     except IOError:
-        module.fail_json(msg="Couldn't find a ssh config at %s" %
+        module.fail_json(msg='Couldn\'t find a ssh config at %s' %
                          path)
 
     if not is_templatable(path, contents):
-        module.fail_json(msg="Your ssh config lacks template stubs. " +
-                             "Check README.md for instructions.")
+        module.fail_json(msg='Your ssh config lacks template stubs. ' +
+                             'Check README.md for instructions.')
 
-    rendered = "{}{}{}".format(
+    rendered = '{}{}{}'.format(
         pre_match,
         render_template(module.params['hostinfo']),
         post_match
@@ -108,9 +108,9 @@ def main():
             f.write(match.sub(rendered, contents))
         f.close()
     except IOError:
-        module.fail_json(msg="Couldn't write to ssh config. Check permissions")
+        module.fail_json(msg='Couldn\'t write to ssh config. Check permissions')
 
-    module.exit_json(changed=True, meta="Updated %s successfully" % path)
+    module.exit_json(changed=True, meta='Updated %s successfully' % path)
 
 
 if __name__ == '__main__':

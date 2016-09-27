@@ -3,4 +3,3 @@ jenkins_url: "https://ci-release.nodejs.org/"
 jenkins_worker_jar: "https://ci.nodejs.org/jnlpJars/slave.jar"
 
 server_user: "iojs"
-ansible_ssh_private_key_file: ~/.ssh/nodejs_build_release
