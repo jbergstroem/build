@@ -4,16 +4,6 @@
 # node.js hosts! check the readme on how to add more
 # (if its not obvious enough).
 #
-# quirks!
-# - if your host contains *nodesource*, extra connections arguments
-#   will be added to your ssh session  because it lives behind
-#   a jump host -- check `inventory.yml.py:add_tunnel` for more info
-#
-# - all freebsd hosts will get a different default python interpreter
-#   since it lives in `/usr/local/bin`.
-#
-# - all smartos hosts will also get a different python path - `/opt/local/bin`
-#
 
 hosts:
 
