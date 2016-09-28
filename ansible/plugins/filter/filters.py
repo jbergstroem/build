@@ -23,6 +23,7 @@
 
 from ansible.errors import AnsibleFilterError
 
+
 def match_key(value, dictionary, raise_error=True, feedback_name='os'):
     for key, val in dictionary.iteritems():
         # yes, yes; we can lambda this but my old self in
@@ -39,8 +40,10 @@ def match_key(value, dictionary, raise_error=True, feedback_name='os'):
         )
     return False
 
+
 def starts_with(value, query):
     return value.startswith(query)
+
 
 class FilterModule(object):
     ''' Query filter '''

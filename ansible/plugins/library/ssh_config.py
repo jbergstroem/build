@@ -27,20 +27,19 @@ from jinja2 import Environment, Template, filters
 import os
 import re
 
-pre_match  = '# begin: node.js template'
+pre_match = '# begin: node.js template'
 post_match = '# end: node.js template'
-match      = re.compile(r'^' + re.escape(pre_match) +
-                        '(.*)' + re.escape(post_match),
-                        flags=re.DOTALL|re.MULTILINE)
+match = re.compile(r'^' + re.escape(pre_match) + '(.*)' + re.escape(post_match),
+                   flags=re.DOTALL | re.MULTILINE)
 
 replace_ssh_args = {
-  '-o ': '',
-  '\'': '',
-  '=': ' '
+    '-o ': '',
+    '\'': '',
+    '=': ' '
 }
 
 host_template = \
-'''
+    '''
 {%- for host, metadata in hosts|dictsort -%}
 {%- if metadata.ansible_host and not metadata.is_win -%}
 {%- set ssh_arg = metadata.ansible_ssh_common_args %}
@@ -48,30 +47,32 @@ Host {{ host }} {{ metadata.alias }}
   HostName {{ metadata.ansible_host }}
   IdentityFile {{ metadata.ansible_ssh_private_key_file }}
   User {{ metadata.user or 'root' }}
-{{ '  ' + ssh_arg|multi_replace(replace_ssh_args) + '\n' if ssh_arg }}
+{{ '  ' + ssh_arg|multi_replace(args) + '\n' if ssh_arg }}
  {%- endif -%}
 {%- endfor -%}
 '''
+
 
 def multi_replace(content, to_replace):
     for key, val in to_replace.iteritems():
         content = content.replace(key, val)
     return content
 
+
 def is_templatable(path, config):
     return os.path.exists(path) and bool(re.search(match, config))
+
 
 def render_template(hosts):
     render = Environment()
     render.filters['multi_replace'] = multi_replace
     return render.from_string(host_template).render(hosts=hosts,
-        replace_ssh_args=replace_ssh_args)
-
+                                                    args=replace_ssh_args)
 
 
 def main():
     module = AnsibleModule(
-        argument_spec = {
+        argument_spec={
             'path': {
                 'required': True,
                 'type': 'str',
