@@ -20,7 +20,7 @@
 
 Most of your work will probably include editing `inventory.yml`, followed by
 running one (or multiple) of below playbooks. If you're adding a new host,
-limiting ansible ot just running on that host is probably quicker:
+limiting ansible to just running on that host is probably quicker:
 
 ```console
 $ ansible-playbook playbooks/create-jenkins-worker.yml \
@@ -29,9 +29,8 @@ $ ansible-playbook playbooks/create-jenkins-worker.yml \
 
 These playbooks are available to you:
 
-  - **upgrade-packages.yml**: Upgrades packages on all hosts.
-    *Note*: this is strongly advised to use in conjunction with `--limit`,
-    such as `--limit="test-*"`.
+  - **upgrade-packages.yml**: Upgrades packages on provided hosts.
+    *Note*: use `--limit`.
 
   - **update-ssh-keys.yml**: Updates (and verifies) {,pub}keys both locally
     and remote. This is useful if you want to cycle keys. This should be used
@@ -48,7 +47,7 @@ These playbooks are available to you:
 If something isn't working, have a look at the playbooks or roles. They
 are well documented and should (hopefully) be easy to improve.
 
-### Adding a host to the inventory
+### Adding a new host to inventory.yml
 
 Hosts are listed as part of an yaml collection. Find the type and provider and
 add your host in the list (alphabetical order). Your host can start with an
@@ -91,24 +90,6 @@ Each host needs a bit of metadata:
            commands executed.
  - `alias`: creates shorthand names for ssh convenience.
  - `labels`: Each host can also labels. More on that below.
-
-#### Working with labels
-
-**Note: note implemented yet**
-
-Labels are used in the jenkins environment. They're most often used when
-defining what workers should be part of a job.
-
-Each host gets at least a label based on os/arch, such as `centos6-x64` or
-`freebsd10-x86`. If the machine has other intended uses, you can add more
-labels, for instance:
-
-```yaml
-  debian8-x64-1: {ip:1.2.3.4, labels: [foo, bar]}
-```
-
-There are also labels that are only used in the release environment
-such as `pre-1-release`.
 
 #### Adding extra options to a host
 
@@ -159,3 +140,4 @@ Unsorted stuff of things we need to do/think about
 - [ ] create a per-os variable for ccache libexec path
 - [ ] follow up ansible upstream wrt hostname support for smartos/alpine
 - [ ] make `nodejs_yaml` a class and support `--host`
+- [ ] add label support to jenkins
