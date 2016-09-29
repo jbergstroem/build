@@ -1,0 +1,18 @@
+---
+
+#
+# create linters
+#
+
+- hosts:
+   - test-joyent-freebsd10-x64-2
+   - test-digitalocean-freebsd10-x64-3
+
+  roles:
+    - bootstrap
+    - baselayout
+    - jenkins-worker
+
+  tasks:
+    - name: install node.js
+    - pkgin: state=present name=node

@@ -1,0 +1,9 @@
+---
+
+#
+# enable/start the os-bundled ntpd
+#
+
+- name: add ntpd to startup
+  lineinfile: state=present dest=/etc/rc.conf line="ntpd_enable=\"YES\""
+  notify: start ntpd

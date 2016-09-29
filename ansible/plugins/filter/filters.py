@@ -22,6 +22,7 @@
 #
 
 from ansible.errors import AnsibleFilterError
+import re
 
 
 def match_key(value, dictionary, raise_error=True, feedback_name='os'):
@@ -45,11 +46,18 @@ def starts_with(value, query):
     return value.startswith(query)
 
 
+def stripversion(value):
+    # returns stuff up to first digit
+    match = re.search(r'^\D+', value)
+    return match.group() if match else False
+
+
 class FilterModule(object):
     ''' Query filter '''
 
     def filters(self):
         return {
             'match_key': match_key,
-            'startswith': starts_with
+            'startswith': starts_with,
+            'stripversion': stripversion
         }

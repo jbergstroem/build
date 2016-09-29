@@ -4,22 +4,39 @@
 # common tasks suitable for all machines
 #
 
-  - name: gather facts
-    setup: gather_subset=hardware
+- name: gather facts
+  setup: gather_subset=hardware
 
-  - name: set hostname
-    # setting hostname is not supported for all os'es
-    when: not os|startswith("alpine") or not os|startswith("smartos")
-    hostname: name="{{ inventory_hostname }}"
+# setting hostname is not supported for all os'es. see
+# https://github.com/ansible/ansible-modules-core/issues/4818
+# https://github.com/ansible/ansible-modules-core/issues/4782
+- name: set hostname
+  when: not os|startswith("alpine") and not os|startswith("smartos")
+  hostname: name="{{ inventory_hostname }}"
 
-  - name: create the active user
-    user: name="{{ server_user }}" shell=/bin/bash
+- name: create the active user
+  user: name="{{ server_user }}" shell=/bin/bash
 
-  - name: add ::1 to /etc/hosts for ipv6 compat
-    lineinfile:
-      dest: /etc/hosts
-      state: present
-      line:  "::1 localhost.localdomain localhost"
+- name: add ::1 to /etc/hosts for ipv6 compat
+  lineinfile:
+    dest: /etc/hosts
+    state: present
+    line: ::1 localhost.localdomain localhost
 
-  - include: repos.yml
-  - include: ntp.yml
+- name: disable joyent smartconnect
+  when: os|startswith("smartos")
+  notify: restart sshd
+  lineinfile: state=absent dest="{{ ssh_config }}" regexp=libsmartsshd.so
+
+- name: disable sftp
+  when: not os|startswith("win")
+  notify: restart sshd
+  lineinfile: state=absent dest="{{ ssh_config }}" regexp=^Subsystem(\s+)sftp
+
+- include: repos.yml
+
+- name: install packages
+  package: name={{ item }} state=present
+  with_items: "{{ common_packages }} + {{ packages[os|stripversion] }}"
+
+- include: ntp.yml

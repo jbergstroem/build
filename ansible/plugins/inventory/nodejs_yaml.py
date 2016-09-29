@@ -42,7 +42,7 @@ valid = {
            'x64', 'x86', 's390', 's390x'),
 
   # valid roles - add as necessary
-  'type': ('infra', 'lint', 'release', 'test'),
+  'type': ('infra', 'release', 'test'),
 
   # providers - validated for consistency
   'provider': ('azure', 'digitalocean', 'joyent', 'ibm', 'linuxonecc',
@@ -89,9 +89,7 @@ def main():
             export[host_type] = {}
             export[host_type]['hosts'] = []
 
-            # we currently use infra keys for lint hosts. figure this out!
-            k = 'infra' if host_type == 'lint' else host_type
-            key = '~/.ssh/nodejs_build_%s' % k
+            key = '~/.ssh/nodejs_build_%s' % host_type
             export[host_type]['vars'] = {
                 'ansible_ssh_private_key_file': key
             }

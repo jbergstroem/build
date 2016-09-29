@@ -8,7 +8,7 @@
 #    and named accordingly:
 #
 #    `nodejs_build_$machine_type{,.pub}` where $machine_type correlates to
-#    machine prefix such as test- infra- lint- or release-.
+#    machine prefix such as test-, infra- or release-.
 #
 # 2. pubkey needs the email suffixed to be formatted in a similar fashion:
 #

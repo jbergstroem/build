@@ -4,32 +4,45 @@
 # variables shared in baselayout
 #
 
-  common_packages: [
-    'automake',
-    'bash',
-    'ccache',
-    'git',
-    'libtool',
-    'subversion',
-    'sudo',
-    'xz'
+ssh_config: /etc/ssh/sshd_config
+server_user: iojs
+
+common_packages: [
+  'automake',
+  'bash',
+  'ccache',
+  'git',
+  'libtool',
+  'subversion',
+  'sudo',
   ]
 
+packages: {
   freebsd: [
     'gmake'
-  ]
+    ],
 
   smartos: [
     'gcc48',
     'gcc48-libs',
-    'gccmakedep'
+    'gccmakedep',
+    'xz'
+    ]
+  }
+
+# ntp.yml
+ntp_path: "{{ role_path }}/tasks/partials/ntp/{{ os }}.yml"
+
+ntp_service: [
+  'freebsd10': 'ntpd'
   ]
 
-  repo_path: "{{ role_path }}/tasks/partials/repo/{{ os }}.yml"
+# repo.yml
+repo_path: "{{ role_path }}/tasks/partials/repo/{{ os }}.yml"
 
-  repos: {
-    'alpine34': [
-      'https://dl-3.alpinelinux.org/alpine/edge/main',
-      'https://dl-3.alpinelinux.org/alpine/edge/community' # java lives here
+repos: {
+  'alpine34': [
+    'https://dl-3.alpinelinux.org/alpine/edge/main',
+    'https://dl-3.alpinelinux.org/alpine/edge/community' # java lives here
     ]
   }

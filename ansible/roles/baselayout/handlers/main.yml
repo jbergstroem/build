@@ -1,0 +1,11 @@
+---
+
+#
+# generic handlers for baselayout stuff
+#
+
+- name: restart sshd
+  service: name=sshd state=restarted
+
+- name: start ntpd
+  service: name="{{ ntp_service[os] }}" state=started
