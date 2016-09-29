@@ -5,7 +5,7 @@
 
 ### Getting started
 
-1. Install Ansible 2.1.1.0 or newer: `pip install ansible`.
+1. Install Ansible 2.2.0 or newer: `pip install ansible`.
 2. Read this document.
 3. Clone the node secrets repository (if you don't have access ask anyone
    in the [build group][1]).
