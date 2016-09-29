@@ -105,7 +105,12 @@ def main():
                         delimiter = "_" if host.count('-') is 3 else "-"
                         hostname = '{}-{}{}{}'.format(host_type, provider_name,
                                                       delimiter, host)
-                        export[host_type]['hosts'].append(hostname)
+
+                        # no point in adding windows servers for now
+                        if 'win' in hostname:
+                            continue
+                        else:
+                            export[host_type]['hosts'].append(hostname)
 
                         c = {}
 
