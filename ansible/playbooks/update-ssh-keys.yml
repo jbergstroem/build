@@ -44,33 +44,21 @@
       register: verify_email
       failed_when: "verify_email.rc != 0"
 
-
     - name: read new pubkey
       run_once: true
       local_action:
         set_fact pubkey="{{ lookup('file', '{{ key }}.pub' ) }}"
 
-    - name: backup authorized_keys
-      raw: cp ~/.ssh/authorized_keys ~/.ssh/.authorized_keys.backup
+    - name: assign path to authorized_keys
+      shell: "echo ~{{ ansible_user }}/.ssh/authorized_keys"
+      register: authorized_keys
 
     - name: replace pubkey in authorized_keys
-      # why raw here?
-      # 1. tilde expansions can't be relied upon, making lineinfile
-      #    (with regex) unsuitable.
-      # 2. authorized_keys doesn't support modifying the matching process
-      #    (we want to match on comment) and forces user to be passed.
-      #    we're lazily relying on tilde here to avoid juggling become_user
-      #    and ssh user.
-      raw: >
-        sed -i -e 's|.*{{ type }}\@build.nodejs.org.*|{{ pubkey }}|'
-        ~/.ssh/authorized_keys
-      register: replaced_key
-      failed_when: "replaced_key.rc != 0"
-
-    - name: remove backup
-      when: "replaced_key.rc == 0"
-      raw: rm ~/.ssh/.authorized_keys.backup
-
-    - name: rollback authorized_keys
-      when: "replaced_key.rc != 0"
-      raw: mv ~/.ssh/.authorized_keys.backup ~/.ssh/authorized_keys
+      lineinfile:
+      args:
+        dest: "{{ authorized_keys.stdout }}"
+        regexp: ".*{{ type }}@build.nodejs.org$"
+        line: "{{ pubkey }}"
+        owner: "{{ ansible_user }}"
+        mode: 0600
+        validate: "grep '{{ pubkey }}' %s"
