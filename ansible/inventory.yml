@@ -158,8 +158,8 @@ hosts:
         aix61-ppc64_be-2: {ip: 140.211.9.100}
         ubuntu14-ppc64_be-1: {ip: 140.211.168.74}
         ubuntu14-ppc64_be-2: {ip: 140.211.168.75}
-        ubuntu14-ppc64_le-1: {ip: 140.211.168.35}
-        ubuntu14-ppc64_le-2: {ip: 140.211.168.37}
+        ubuntu14-ppc64_le-1: {ip: 140.211.168.106}
+        ubuntu14-ppc64_le-2: {ip: 140.211.168.94}
 
     - rackspace:
         debian8-x64-1: {ip: 23.253.109.216}
