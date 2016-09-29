@@ -1,0 +1,40 @@
+---
+#
+# Downloads and installs ccache
+# @requires: version=3.2.4
+#
+
+- name: "ccache : download and extract"
+  unarchive:
+  args:
+    dest: /tmp/
+    remote_src: yes
+    src: https://www.samba.org/ftp/ccache/ccache-{{ version }}.tar.gz
+  register: new_archive
+
+- name: "ccache : prepare for compilation"
+  shell: ./configure -q
+  args:
+    chdir: /tmp/ccache-{{ version }}
+
+- name: "ccache : compile"
+  make: chdir=/tmp/ccache-{{ version }}
+
+- name: "ccache : install"
+  copy:
+  args:
+    dest: /usr/local/bin/ccache
+    mode: 0755
+    remote_src: yes
+    src: /tmp/ccache-{{ version }}/ccache
+
+- name: "ccache : create symlinks"
+  with_items: [ 'gcc', 'cc', 'g++', 'c++' ]
+  file:
+  args:
+    dest: /usr/local/bin/{{ item }}
+    src: /usr/local/bin/ccache
+    state: link
+
+- name: "ccache : cleanup"
+  file: path="/tmp/ccache-{{ version }}" state=absent

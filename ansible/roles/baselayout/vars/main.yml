@@ -4,13 +4,14 @@
 # variables shared in baselayout
 #
 
+ccache_no_binpkg: ['smartos14', 'smartos15', 'smartos16']
+ccache_version: 3.3.2
+
 ssh_config: /etc/ssh/sshd_config
-server_user: iojs
 
 common_packages: [
   'automake',
   'bash',
-  'ccache',
   'git',
   'libtool',
   'subversion',
@@ -18,7 +19,13 @@ common_packages: [
   ]
 
 packages: {
+  alpine: [
+    'ccache',
+    'make',
+    'xz'
+  ],
   freebsd: [
+    'ccache',
     'gmake'
     ],
 
@@ -33,16 +40,7 @@ packages: {
 # ntp.yml
 ntp_path: "{{ role_path }}/tasks/partials/ntp/{{ os }}.yml"
 
-ntp_service: [
-  'freebsd10': 'ntpd'
-  ]
+ntp_service: []
 
 # repo.yml
 repo_path: "{{ role_path }}/tasks/partials/repo/{{ os }}.yml"
-
-repos: {
-  'alpine34': [
-    'https://dl-3.alpinelinux.org/alpine/edge/main',
-    'https://dl-3.alpinelinux.org/alpine/edge/community' # java lives here
-    ]
-  }

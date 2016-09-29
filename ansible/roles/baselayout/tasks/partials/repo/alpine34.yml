@@ -6,5 +6,6 @@
 
 - name: add package repos
   lineinfile: dest=/etc/apk/repositories create=yes line="{{ item }}"
-  with_items: "{{ repos['alpine34'] }}"
-  when: not has_added_package_repo
+  with_items:
+    - https://dl-3.alpinelinux.org/alpine/edge/main
+    - https://dl-3.alpinelinux.org/alpine/edge/community

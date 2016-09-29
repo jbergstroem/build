@@ -8,4 +8,8 @@
   service: name=sshd state=restarted
 
 - name: start ntpd
-  service: name="{{ ntp_service[os] }}" state=started
+  service:
+  args:
+    name: "{{ ntp_service[os]|default('ntpd') }}"
+    state: started
+    enabled: yes

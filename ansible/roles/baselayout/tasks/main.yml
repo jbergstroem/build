@@ -28,6 +28,10 @@
   notify: restart sshd
   lineinfile: state=absent dest="{{ ssh_config }}" regexp=libsmartsshd.so
 
+- name: change default coredump folder
+  when: os|startswith("smartos")
+  shell: coreadm -g /home/iojs/cores/core.%f.%p -e global
+
 - name: disable sftp
   when: not os|startswith("win")
   notify: restart sshd
@@ -38,5 +42,9 @@
 - name: install packages
   package: name={{ item }} state=present
   with_items: "{{ common_packages }} + {{ packages[os|stripversion] }}"
+
+- name: run ccache installer
+  when: os in ccache_no_binpkg
+  include: ccache.yml version=3.3.2
 
 - include: ntp.yml

@@ -33,4 +33,4 @@
 
   - name: install shadow
     when: has_shadow.rc == 1
-    raw: apk add python
+    raw: apk add shadow
