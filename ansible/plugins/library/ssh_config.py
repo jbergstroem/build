@@ -46,7 +46,7 @@ host_template = \
 Host {{ host }} {{ metadata.alias }}
   HostName {{ metadata.ansible_host }}
   IdentityFile {{ metadata.ansible_ssh_private_key_file }}
-  User {{ metadata.user or 'root' }}
+  User {{ metadata.ansible_user or 'root' }}
 {{ '  ' + ssh_arg|multi_replace(args) + '\n' if ssh_arg }}
  {%- endif -%}
 {%- endfor -%}
