@@ -40,3 +40,8 @@ jenkins_init: {
 # called regardless of success.
 init_type: "{{ os|match_key(init, raise_error=False)|default(os|stripversion|match_key(init, raise_error=False)) }}"
 jenkins: "{{ jenkins_init[init_type] }}"
+
+needs_monit: [
+  'alpine34',
+  'centos5'
+  ]

@@ -15,8 +15,11 @@
   when: not os|startswith("alpine") and not os|startswith("smartos")
   hostname: name="{{ inventory_hostname|replace('_', '-') }}"
 
+- name: create group
+  group: name="{{ server_user }}"
+
 - name: create the active user
-  user: name="{{ server_user }}" shell=/bin/bash
+  user: name="{{ server_user }}" group="{{ server_user }}" shell=/bin/bash
 
 - name: add ::1 to /etc/hosts for ipv6 compat
   lineinfile:
@@ -44,8 +47,8 @@
     loop_var: repos_include
   with_first_found:
     - files:
-        - "partials/repo/{{ os }}.yml"
-        - "partials/repo/{{ os|stripversion }}.yml"
+        - "{{ role_path }}/tasks/partials/repo/{{ os }}.yml"
+        - "{{ role_path }}/tasks/partials/repo/{{ os|stripversion }}.yml"
       skip: true
 
 - name: install packages
@@ -75,7 +78,7 @@
     loop_var: ntp_include
   with_first_found:
     - files:
-        - "partials/ntp/{{ os }}.yml"
-        - "partials/ntp/{{ os|stripversion }}.yml"
-        - "partials/ntp/{{ os|match_key(ntp_service, raise_error=False) }}.yml"
+        - "{{ role_path }}/tasks/partials/ntp/{{ os }}.yml"
+        - "{{ role_path }}/tasks/partials/ntp/{{ os|stripversion }}.yml"
+        - "{{ role_path }}/tasks/partials/ntp/{{ os|match_key(ntp_service, raise_error=False) }}.yml"
       skip: true

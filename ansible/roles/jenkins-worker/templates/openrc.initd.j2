@@ -4,10 +4,10 @@ description="Start a Jenkins slave"
 
 name="java"
 command="/usr/bin/java"
-command_args="-jar /home/{{ server_user }}/slave.jar \
-  -Xmx{{ server_ram|default('128m') }} -secret {{ secret }} \
+command_args="-Xmx{{ server_ram|default('128m') }} \
+  -jar /home/{{ server_user }}/slave.jar -secret {{ secret }} \
   -jnlpUrl {{ jenkins_url }}/computer/{{ inventory_hostname }}/slave-agent.jnlp \
-  -slaveLog /home/{{ server_user }}/slave.log
+  -slaveLog /home/{{ server_user }}/slave.log"
 
 
 depend() {
@@ -25,7 +25,7 @@ start() {
         ebegin "Starting jenkins slave"
         start-stop-daemon --start --background --make-pidfile \
                 --user {{ server_user }} --group {{ server_user }} \
-                --pidfile=/run/jenkins.pid --exec $command \
+                --pidfile=/run/jenkins.pid --exec ${command} \
                 -- ${command_args}
 }
 

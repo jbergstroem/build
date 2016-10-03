@@ -20,3 +20,7 @@
 
 - name: enable jenkins at startup
   service: name=jenkins state=started enabled=yes
+
+- name: install monit
+  when: os in needs_monit
+  include: monit.yml

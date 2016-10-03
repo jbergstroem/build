@@ -22,6 +22,8 @@ common_packages: [
 packages: {
   alpine: [
     'ccache',
+    'g++',
+    'gcc',
     'make',
     'xz'
   ],
