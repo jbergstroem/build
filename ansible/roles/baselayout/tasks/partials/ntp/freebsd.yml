@@ -6,4 +6,10 @@
 
 - name: add ntpd to startup
   lineinfile: state=present dest=/etc/rc.conf line="ntpd_enable=\"YES\""
-  notify: start ntpd
+
+- name: start ntpd
+  service:
+  args:
+    name: "ntpd"
+    state: started
+    enabled: yes

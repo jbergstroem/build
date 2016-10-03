@@ -9,6 +9,10 @@
     - bootstrap
     - baselayout
     - package-upgrade
+    - jenkins-worker
 
-  tasks:
-#    - name: place init script
+  pre_tasks:
+    - name: check if host_vars file exists exists
+      local_action: stat path="../host_vars/{{ inventory_hostname }}"
+      register: hostvar
+      failed_when: "not hostvar.stat.exists"

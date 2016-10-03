@@ -23,7 +23,7 @@
 - name: "ccache : install"
   copy:
   args:
-    dest: /usr/local/bin/ccache
+    dest: "{{ ccache_dest }}"
     mode: 0755
     remote_src: yes
     src: /tmp/ccache-{{ version }}/ccache

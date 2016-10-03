@@ -6,10 +6,3 @@
 
 - name: restart sshd
   service: name=sshd state=restarted
-
-- name: start ntpd
-  service:
-  args:
-    name: "{{ ntp_service[os]|default('ntpd') }}"
-    state: started
-    enabled: yes

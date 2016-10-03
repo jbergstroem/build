@@ -1,0 +1,42 @@
+---
+
+#
+#
+#
+
+init: {
+  openrc: 'alpine',
+  systemd: ['centos7', 'debian8', 'fedora', 'ubuntu1604'],
+  sysvinit: 'centos'
+  }
+
+jenkins_init: {
+  openrc: {
+    dest: '/etc/init.d/jenkins',
+    src: 'openrc.initd.j2',
+    mode: '0755'
+    },
+  systemd: {
+    dest: '/lib/systemd/system/jenkins.service',
+    src: 'systemd.service.j2'
+    },
+  smartos: {
+    dest: '/home/{{ server_user }}/jenkins_manifest.xml',
+    src: 'jenkins_manifest.xml.j2'
+    },
+  upstart: {
+    dest: '/etc/init/jenkins.conf',
+    src: 'upstart.j2'
+    },
+  freebsd: {
+    dest: '/usr/local/etc/rc.d/jenkins',
+    src: 'freebsd-sysinit.initd.j2',
+    mode: '0755'
+    },
+  }
+
+# if you fail here, it means it cant map your os or os family to a init system
+# the best thing to do would be throwing, but the default case seems to be
+# called regardless of success.
+init_type: "{{ os|match_key(init, raise_error=False)|default(os|stripversion|match_key(init, raise_error=False)) }}"
+jenkins: "{{ jenkins_init[init_type] }}"

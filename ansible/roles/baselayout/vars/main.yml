@@ -4,6 +4,7 @@
 # variables shared in baselayout
 #
 
+ccache_dest: '/usr/local/bin/ccache'
 ccache_no_binpkg: ['smartos14', 'smartos15', 'smartos16']
 ccache_version: 3.3.2
 
@@ -33,14 +34,13 @@ packages: {
     'gcc48',
     'gcc48-libs',
     'gccmakedep',
+    'gmake',
     'xz'
+    ],
+
+  ubuntu: [
+    'ccache',
+    'gcc',
+    'g++'
     ]
   }
-
-# ntp.yml
-ntp_path: "{{ role_path }}/tasks/partials/ntp/{{ os }}.yml"
-
-ntp_service: []
-
-# repo.yml
-repo_path: "{{ role_path }}/tasks/partials/repo/{{ os }}.yml"

@@ -4,10 +4,13 @@
 # bootstrap packages required for ansible to work
 #
 
-  - name: check if bootstrap is required
-    local_action: stat path="{{ template }}"
-    register: has_template
-
-  - name: include os-specific tasks
-    when: has_template.stat.exists
-    include: "{{ template }}"
+  - name: run os-specific bootstrap
+    include: "{{ bootstrap_include }}"
+    skip: true
+    loop_control:
+      loop_var: bootstrap_include
+    with_first_found:
+      - files:
+        - "{{ role_path }}/tasks/partials/{{ os }}.yml"
+        - "{{ role_path }}/tasks/partials/{{ os|stripversion }}.yml"
+        skip: true

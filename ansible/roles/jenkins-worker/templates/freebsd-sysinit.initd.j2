@@ -31,9 +31,9 @@ jenkins_env=" \
 
 jenkins_jar="/home/{{ server_user }}/slave.jar"
 jenkins_log_file="/home/{{ server_user }}/${name}_console.log"
-jenkins_args="-jar ${jenkins_jar} -Xmx128m \
-        -jnlpUrl {{ jenkins_url }}/computer/{{ inventory_hostname }}/slave-agent.jnlp \
-        -secret {{ secret }}"
+jenkins_args="-jar ${jenkins_jar} -Xmx{{ server_ram|default('128m') }} \
+  -jnlpUrl {{ jenkins_url }}/computer/{{ inventory_hostname }}/slave-agent.jnlp \
+  -secret {{ secret }}"
 
 # FreeBSD uses a java wrapper. Without full path pid monitoring won't work
 procname=$(cat /usr/local/etc/javavms | cut -d "#" -f 1)
@@ -48,19 +48,19 @@ start_precmd="${name}_prestart"
 stop_cmd="${name}_stop"
 
 jenkins_prestart() {
-        if [ ! -f "${jenkins_log_file}" ]; then
-                touch "${jenkins_log_file}"
-                chown "{{ server_user }}:{{ server_user }}" "${jenkins_log_file}"
-                chmod 640 "${jenkins_log_file}"
-        fi
-        if [ ! -d $(dirname ${pidfile}) ]; then
-                install -d -o "{{ server_user }}" -g "${jenkins_group}" \
-                        -m 750 $(dirname ${pidfile})
-        fi
+  if [ ! -f "${jenkins_log_file}" ]; then
+    touch "${jenkins_log_file}"
+    chown "{{ server_user }}:{{ server_user }}" "${jenkins_log_file}"
+    chmod 640 "${jenkins_log_file}"
+  fi
+  if [ ! -d $(dirname ${pidfile}) ]; then
+    install -d -o "{{ server_user }}" -g "${jenkins_group}" \
+            -m 750 $(dirname ${pidfile})
+  fi
 
-        if [ ! ${jenkins_secret} ]; then
-                err 1 "You need to add a jenkins secret"
-        fi
+  if [ ! ${jenkins_secret} ]; then
+    err 1 "You need to add a jenkins secret"
+  fi
 }
 
 # Kill monitor, not java since it would respawn

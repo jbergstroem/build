@@ -25,12 +25,16 @@
       private: false
 
   tasks:
+    # this needs failed_when to proerly throw
     - name: verify that the new {,pub}key exists
-      local_action: stat path="{{ item }}"
+      local_action: stat path="{{ pubkey }}"
+      loop_control:
+        loop_var: pubkey
       run_once: true
       with_items:
         - "{{ key }}"
         - "{{ key }}.pub"
+
 
     - name: validate new key length
       local_action: raw ssh-keygen -lf {{ key }} | cut -f1 -d " "
