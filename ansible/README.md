@@ -29,14 +29,17 @@ $ ansible-playbook playbooks/create-jenkins-worker.yml \
     --limit "test-digitalocean-debian8-x64-1"
 ```
 
+..in fact, you most likely want to use `--limit` for everything when you just
+need to edit a few set of hosts.
+
 These playbooks are available to you:
 
+  - **create-jenkins-worker.yml**: Sets up a new jenkins worker.
+
   - **upgrade-packages.yml**: Upgrades packages on provided hosts.
-    *Note*: use `--limit`.
 
   - **update-ssh-keys.yml**: Updates (and verifies) {,pub}keys both locally
-    and remote. This is useful if you want to cycle keys. This should be used
-    sparingly and in 99% of your cases together with `--limit`.
+    and remote. This is useful if you want to cycle keys.
 
   - **write-ssh-config.yml**: Updates your ~/.ssh/config with hosts from
    inventory.cfg if your ssh config contains these template stubs:
