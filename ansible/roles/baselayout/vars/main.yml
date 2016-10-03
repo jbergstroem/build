@@ -19,11 +19,14 @@ common_packages: [
   'sudo',
   ]
 
+# you can either add os family or os to this list (see smartos)
+# but the playbook chooses os over family - not both
 packages: {
   alpine: [
     'ccache',
     'g++',
     'gcc',
+    'linux-headers',
     'make',
     'xz'
   ],
@@ -32,9 +35,25 @@ packages: {
     'gmake'
     ],
 
-  smartos: [
+  smartos14: [
     'gcc48',
     'gcc48-libs',
+    'gccmakedep',
+    'gmake',
+    'xz'
+    ],
+
+  smartos15: [
+    'gcc49',
+    'gcc49-libs',
+    'gccmakedep',
+    'gmake',
+    'xz'
+    ],
+
+  smartos16: [
+    'gcc49',
+    'gcc49-libs',
     'gccmakedep',
     'gmake',
     'xz'

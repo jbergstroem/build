@@ -6,7 +6,6 @@
       <create_default_instance enabled='true' />
 
       <single_instance />
-      <stability value='Evolving' />
 
       <dependency name='network' grouping='require_all' restart_on='error' type='service'>
         <service_fmri value='svc:/milestone/network:default' />
@@ -22,14 +21,14 @@
           <envvar name='NODE_TEST_DIR' value='/home/{{ server_user }}/tmp' />
           <envvar name='OSTYPE' value='solaris' />
           <envvar name='HOME' value='/home/{{ server_user }}' />
-          <envvar name='JOBS' value='{{ server_jobs|default(ansible_processor_vcpus) }}' />
+          <envvar name='JOBS' value='{{ server_jobs|default(ansible_processor_vcpus|default("4")) }}' />
           <envvar name='PATH' value='/usr/local/bin:/usr/local/sbin:/opt/local/sbin:/opt/local/bin:/usr/sbin:/usr/bin:/sbin' />
         </method_environment>
       </method_context>
 
       <exec_method type='method'
                    name='start'
-                   exec='/opt/local/java/openjdk7/bin/java -Xmx{{ server_ram|default('128m') }} -jar slave.jar -jnlpUrl {{ jenkins_url }}/computer/{{ inventory_hostname }}/slave-agent.jnlp -secret {{ secret }}'
+                   exec='{{ java_path[os] }} -Xmx{{ server_ram|default('128m') }} -jar /home/{{ server_user }}/slave.jar -jnlpUrl {{ jenkins_url }}/computer/{{ inventory_hostname }}/slave-agent.jnlp -secret {{ secret }}'
                    timeout_seconds='30' />
 
       <exec_method type="method"
@@ -48,6 +47,8 @@
       </property_group>
 
       <property_group name="application" type="application"></property_group>
+
+      <stability value='Evolving' />
 
       <template>
         <common_name>

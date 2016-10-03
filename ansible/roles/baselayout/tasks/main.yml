@@ -69,6 +69,7 @@
 - name: run ccache installer
   when: os in ccache_no_binpkg and not has_ccache.stat.exists
   include: ccache.yml
+  static: false
   vars:
     - version: 3.3.2
 

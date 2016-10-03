@@ -18,9 +18,15 @@
     dest: "{{ jenkins.dest }}"
     mode: "{{ jenkins.mode|default('0644') }}"
 
+
+- name: import manifest to svcadm
+  when: os|startswith("smartos")
+  raw: "svccfg import {{ jenkins.dest }}"
+
 - name: enable jenkins at startup
   service: name=jenkins state=started enabled=yes
 
 - name: install monit
   when: os in needs_monit
   include: monit.yml
+  static: false

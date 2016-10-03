@@ -7,7 +7,9 @@
 init: {
   openrc: 'alpine',
   systemd: ['centos7', 'debian8', 'fedora', 'ubuntu1604'],
-  sysvinit: 'centos'
+  sysvinit: 'centos',
+  svc: 'smartos',
+  sysinit: 'freebsd'
   }
 
 jenkins_init: {
@@ -20,7 +22,7 @@ jenkins_init: {
     dest: '/lib/systemd/system/jenkins.service',
     src: 'systemd.service.j2'
     },
-  smartos: {
+  svc: {
     dest: '/home/{{ server_user }}/jenkins_manifest.xml',
     src: 'jenkins_manifest.xml.j2'
     },
@@ -28,7 +30,7 @@ jenkins_init: {
     dest: '/etc/init/jenkins.conf',
     src: 'upstart.j2'
     },
-  freebsd: {
+  sysinit: {
     dest: '/usr/local/etc/rc.d/jenkins',
     src: 'freebsd-sysinit.initd.j2',
     mode: '0755'
@@ -45,3 +47,10 @@ needs_monit: [
   'alpine34',
   'centos5'
   ]
+
+# some os'es needs different paths to java. add them here.
+java_path: {
+  'smartos14': '/opt/local/java/openjdk7/bin/java',
+  'smartos15': '/opt/local/java/openjdk8/bin/java',
+  'smartos16': '/opt/local/java/openjdk8/bin/java'
+  }
