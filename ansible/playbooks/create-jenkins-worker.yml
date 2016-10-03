@@ -12,7 +12,6 @@
     - jenkins-worker
 
   pre_tasks:
-    - name: check if host_vars file exists exists
-      local_action: stat path="../host_vars/{{ inventory_hostname }}"
-      register: hostvar
-      failed_when: "not hostvar.stat.exists"
+    - name: check if secret is properly set
+      fail: msg="secret for {{ inventory_hostname }} not found!"
+      failed_when: not secret

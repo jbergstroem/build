@@ -138,7 +138,8 @@ Unsorted stuff of things we need to do/think about
       as part of hte label (ref: rvagg long irc talk see 2016-08-29 logs)
 - [ ] extract -Xmx128m to a variable should we need to increase worker ram
 - [ ] install monit for centos5 (too old for matching, point to pidfile)
-- [ ] ask for secret if host_vars is not found (try to bubble up too)
+- [x] ask for secret if host_vars is not found (try to bubble up too)
+      **note**: nope, just fail!
 - [ ] create a per-os variable for ccache libexec path
 - [ ] follow up ansible upstream wrt hostname support for smartos/alpine
 - [ ] make `nodejs_yaml` a class and support `--host`
