@@ -112,7 +112,7 @@ Unsorted stuff of things we need to do/think about
 - [ ] playbook: copy keys and config to release machines
 - [ ] avoid messing with keys on machines that has multiple usage such as jump
       hosts (or set up a new jump host)
-- [ ] ubuntu systemd init needs different path (copy from gather_facts path?)
+- [x] ubuntu systemd init needs different path (copy from gather_facts path?)
 - [x] freebsd: replace quarterly with latest for packages
 - [x] support host aliases in hostname config generator
 - [x] avoid windows hosts in ssh generator
@@ -136,11 +136,11 @@ Unsorted stuff of things we need to do/think about
 - [ ] make exceptions for jump hosts when adding to the CI iptables firewall
 - [ ] when creating additional jenkins labels based on `labels=` add os/arch
       as part of hte label (ref: rvagg long irc talk see 2016-08-29 logs)
-- [ ] extract -Xmx128m to a variable should we need to increase worker ram
-- [ ] install monit for centos5 (too old for matching, point to pidfile)
+- [x] extract -Xmx128m to a variable should we need to increase worker ram
+- [x] install monit for centos5 (too old for matching, point to pidfile)
 - [x] ask for secret if host_vars is not found (try to bubble up too)
       **note**: nope, just fail!
-- [ ] create a per-os variable for ccache libexec path
+- [x] create a per-os variable for ccache libexec path
 - [ ] follow up ansible upstream wrt hostname support for smartos/alpine
 - [ ] make `nodejs_yaml` a class and support `--host`
 - [ ] add label support to jenkins
