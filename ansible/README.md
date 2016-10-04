@@ -38,8 +38,8 @@ These playbooks are available to you:
 
   - **create-linter.yml**: Sets up the code linters.
 
-  - **create-www.yml**: Configures the server(s) that host nodejs.org,
-                        iojs.org and dist.libuv.org among other things.
+  - **create-webhost.yml**: Configures the server(s) that host nodejs.org,
+                            iojs.org and dist.libuv.org among other things.
 
   - **upgrade-packages.yml**: Upgrades packages on provided hosts.
 
