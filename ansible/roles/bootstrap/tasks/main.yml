@@ -6,7 +6,6 @@
 
   - name: run os-specific bootstrap
     include: "{{ bootstrap_include }}"
-    skip: true
     loop_control:
       loop_var: bootstrap_include
     with_first_found:
