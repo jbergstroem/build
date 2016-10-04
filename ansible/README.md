@@ -115,35 +115,17 @@ Unsorted stuff of things we need to do/think about
 - [ ] playbook: copy keys and config to release machines
 - [ ] avoid messing with keys on machines that has multiple usage such as jump
       hosts (or set up a new jump host)
-- [x] ubuntu systemd init needs different path (copy from gather_facts path?)
-- [x] freebsd: replace quarterly with latest for packages
-- [x] support host aliases in hostname config generator
-- [x] avoid windows hosts in ssh generator
-- [x] create command to check ccache statistics
-- [x] xz,svn on all test boxes
-- [x] add command to update all packages
-- [x] use become instead of sudo
 - [ ] copy release (staging) keys to release machines
 - [ ] backup host: generate config, install rsnapshot
-- [x] ci vs ci-release.nodejs.org in init scripts
 - [ ] scaleway: authorized_keys2 since first is overridden at boot
 - [ ] switch to slaveLog for all jenkins instances lacking stdout redirection
       (note: this depends on init type!)
-- [x] release centos5 needs swap or more ram? (nope)
-- [x] run service iptables-save persistent on build master
 - [ ] add iptables-save-persistent to cron on ci hosts
-- [x] weekly cron job to update slave.jar? (nope, playbook)
-- [x] make sure ::1 localhost exists in all hosts (#415)
 - [ ] [unencrypted host](https://git.io/v6H1z)
-- [x] set the hostname to `{{ inventory_hostname }}`
 - [ ] make exceptions for jump hosts when adding to the CI iptables firewall
 - [ ] when creating additional jenkins labels based on `labels=` add os/arch
       as part of hte label (ref: rvagg long irc talk see 2016-08-29 logs)
-- [x] extract -Xmx128m to a variable should we need to increase worker ram
-- [x] install monit for centos5 (too old for matching, point to pidfile)
-- [x] ask for secret if host_vars is not found (try to bubble up too)
-      **note**: nope, just fail!
-- [x] create a per-os variable for ccache libexec path
 - [ ] follow up ansible upstream wrt hostname support for smartos/alpine
-- [ ] make `nodejs_yaml` a class and support `--host`
+- [ ] callback plugin: make `nodejs_yaml` a class and support `--host`
 - [ ] add label support to jenkins
+- [ ] move all service-related stuff to handlers
