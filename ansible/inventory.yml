@@ -78,8 +78,6 @@ hosts:
         fedora23-x64-1: {ip: 162.243.63.132}
         fedora24-x64-1: {ip: 104.236.112.180}
         freebsd10-x64-1: {ip: 162.243.204.248, user: freebsd}
-        freebsd10-x64-2: {ip: 104.236.54.140, user: freebsd}
-        freebsd10-x64-3: {ip: 104.236.229.96, user: freebsd, alias: lint1}
         ubuntu12-x64-1: {ip: 104.236.234.182}
         ubuntu12-x64-2: {ip: 107.170.104.83}
         ubuntu14-x64-1: {ip: 45.55.252.223}
@@ -94,7 +92,7 @@ hosts:
         alpine34-x64-1: {ip: 72.2.114.80}
         alpine34-x64-2: {ip: 72.2.115.165}
         freebsd10-x64-1: {ip: 72.2.115.15}
-        freebsd10-x64-2: {ip: 72.2.114.23, alias: lint2}
+        freebsd10-x64-2: {ip: 72.2.114.23}
         smartos14-x64-1: {ip: 72.2.114.47}
         smartos14-x64-2: {ip: 72.2.115.156}
         smartos14-x86-1: {ip: 72.2.112.239}
@@ -168,7 +166,7 @@ hosts:
         fedora22-x64-1: {ip: 119.9.51.79}
         fedora23-x64-1: {ip: 119.9.51.113}
         fedora24-x64-1: {ip: 119.9.51.165}
-        freebsd10-x64-1: {ip: 119.9.52.218, alias: lint3}
+        freebsd10-x64-1: {ip: 119.9.52.218}
         win2008r2-x64-1: {ip: 104.130.225.148}
         win2008r2-x64-2: {ip: 23.253.254.31}
         win2008r2-x64-3: {ip: 104.130.8.178}
