@@ -1,7 +1,7 @@
 ---
 
 #
-# freebsd 10
+# generic freebsd python check
 #
 
 - name: check for python
@@ -10,5 +10,5 @@
   failed_when: has_python.rc > 1
 
 - name: install python
-  raw: pkg add -y python
+  raw: pkg install -y python
   when: has_python.rc == 1

@@ -78,6 +78,7 @@ hosts:
         fedora23-x64-1: {ip: 162.243.63.132}
         fedora24-x64-1: {ip: 104.236.112.180}
         freebsd10-x64-1: {ip: 162.243.204.248, user: freebsd}
+        freebsd11-x64-1: {ip: 45.55.90.237, user: freebsd}
         ubuntu12-x64-1: {ip: 104.236.234.182}
         ubuntu12-x64-2: {ip: 107.170.104.83}
         ubuntu14-x64-1: {ip: 45.55.252.223}
