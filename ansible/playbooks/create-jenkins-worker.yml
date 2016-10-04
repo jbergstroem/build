@@ -13,5 +13,5 @@
 
   pre_tasks:
     - name: check if secret is properly set
-      fail: msg="secret for {{ inventory_hostname }} not found!"
+      fail:
       failed_when: not secret

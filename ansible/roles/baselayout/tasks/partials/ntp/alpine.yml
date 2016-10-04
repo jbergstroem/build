@@ -6,7 +6,6 @@
 
 - name: start ntpd
   service:
-  args:
     name: "ntpd"
     state: started
     enabled: yes

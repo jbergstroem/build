@@ -4,16 +4,26 @@
 # fetches jenkins and make sure it is started properly
 #
 
+- name: create group
+  group: name="{{ server_user }}"
+
+- name: create the active user
+  user: name="{{ server_user }}" group="{{ server_user }}" shell=/bin/bash
+
+- name: add ::1 to /etc/hosts for ipv6 compat
+  lineinfile:
+    dest: /etc/hosts
+    state: present
+    line: ::1 localhost.localdomain localhost
+
 - name: download slave.jar
   get_url:
-  args:
     url: "{{ jenkins_worker_jar }}"
     dest: /home/{{ server_user }}/slave.jar
     mode: 0644
 
 - name: render init script into place
   template:
-  args:
     src: "{{ jenkins.src }}"
     dest: "{{ jenkins.dest }}"
     mode: "{{ jenkins.mode|default('0644') }}"

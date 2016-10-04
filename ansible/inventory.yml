@@ -10,6 +10,7 @@ hosts:
   - infra:
 
     - digitalocean:
+        debian8-x64-1: {ip: 67.205.139.6, alias: www2}
         ubuntu14-x64-1: {ip: 107.170.240.62, alias: ci}
         ubuntu14-x64-2: {ip: 104.131.173.199, alias: www}
 
@@ -167,7 +168,7 @@ hosts:
         fedora22-x64-1: {ip: 119.9.51.79}
         fedora23-x64-1: {ip: 119.9.51.113}
         fedora24-x64-1: {ip: 119.9.51.165}
-        freebsd10-x64-1: {ip: 119.9.52.218}
+        freebsd10-x64-1: {ip: 119.9.52.218, alias: lint3}
         win2008r2-x64-1: {ip: 104.130.225.148}
         win2008r2-x64-2: {ip: 23.253.254.31}
         win2008r2-x64-3: {ip: 104.130.8.178}

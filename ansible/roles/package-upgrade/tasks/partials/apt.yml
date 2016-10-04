@@ -10,5 +10,4 @@
   # don't know how to use autoremove=yes for all packages
 - name: clean unwanted packages
   command: apt-get -y autoremove
-  args:
     warn: False

@@ -15,18 +15,6 @@
   when: not os|startswith("alpine") and not os|startswith("smartos")
   hostname: name="{{ inventory_hostname|replace('_', '-') }}"
 
-- name: create group
-  group: name="{{ server_user }}"
-
-- name: create the active user
-  user: name="{{ server_user }}" group="{{ server_user }}" shell=/bin/bash
-
-- name: add ::1 to /etc/hosts for ipv6 compat
-  lineinfile:
-    dest: /etc/hosts
-    state: present
-    line: ::1 localhost.localdomain localhost
-
 - name: disable joyent smartconnect
   when: os|startswith("smartos")
   notify: restart sshd

@@ -10,6 +10,10 @@ ccache_version: 3.3.2
 
 ssh_config: /etc/ssh/sshd_config
 
+ntp_service: {
+  systemd: ['debian8', ]
+  }
+
 common_packages: [
   'automake',
   'bash',

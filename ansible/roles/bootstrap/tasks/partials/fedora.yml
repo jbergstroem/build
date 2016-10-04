@@ -5,21 +5,21 @@
 # @TODO: figure out which version requires what and make it conditional
 #
 
-  - name: check for python
-    raw: stat /usr/bin/python
-    register: has_python
-    failed_when: has_python.rc > 1
+- name: check for python
+  raw: stat /usr/bin/python
+  register: has_python
+  failed_when: has_python.rc > 1
 
-  - name: install python
-    when: has_python.rc == 1
-    raw: dnf install -y python2 python2-dnf
+- name: install python
+  when: has_python.rc == 1
+  raw: dnf install -y python2 python2-dnf
 
-  - name: check for libselinux-python bindings
-    when: os == "fedora24"
-    raw: dnf info libselinux-python | grep Installed
-    register: has_libselinux
-    failed_when:  has_libselinux.rc > 1
+- name: check for libselinux-python bindings
+  when: os == "fedora24"
+  raw: dnf info libselinux-python | grep Installed
+  register: has_libselinux
+  failed_when:  has_libselinux.rc > 1
 
-  - name: install libselinux-python bindings
-    when: os == "fedora24" and has_libselinux.rc == 1
-    raw: dnf install -y libselinux-python
+- name: install libselinux-python bindings
+  when: os == "fedora24" and has_libselinux.rc == 1
+  raw: dnf install -y libselinux-python

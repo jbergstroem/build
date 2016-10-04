@@ -59,7 +59,6 @@
 
     - name: replace pubkey in authorized_keys
       lineinfile:
-      args:
         dest: "{{ authorized_keys.stdout }}"
         regexp: ".*{{ type }}@build.nodejs.org$"
         line: "{{ pubkey }}"
