@@ -4,9 +4,6 @@
 # upgrade installed packages
 #
 
-  - hosts: all
-    roles:
-      - package-upgrade
-
-    tasks:
-  #    - name: place init script
+- hosts: all
+  roles:
+    - package-upgrade

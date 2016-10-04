@@ -36,7 +36,14 @@ These playbooks are available to you:
 
   - **create-jenkins-worker.yml**: Sets up a new jenkins worker.
 
+  - **create-linter.yml**: Sets up the code linters.
+
+  - **create-www.yml**: Configures the server(s) that host nodejs.org,
+                        iojs.org and dist.libuv.org among other things.
+
   - **upgrade-packages.yml**: Upgrades packages on provided hosts.
+
+  - **upgrade-worker-jar.yml**: Upgrades the worker jar file.
 
   - **update-ssh-keys.yml**: Updates (and verifies) {,pub}keys both locally
     and remote. This is useful if you want to cycle keys.

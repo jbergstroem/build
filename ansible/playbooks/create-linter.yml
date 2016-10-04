@@ -37,4 +37,4 @@
       cron:
         special_time: daily
       # ksh does different stdout/err routing
-        job: "npm update -g core-validate-commit  > & /dev/null"
+        job: "npm update -g core-validate-commit > & /dev/null"
