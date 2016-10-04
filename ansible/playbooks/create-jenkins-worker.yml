@@ -4,7 +4,11 @@
 # set up a jenkins worker -- muy bueno!
 #
 
-- hosts: test
+- hosts:
+  - test
+  - "!test-joyent-freebsd10-x64-2"
+  - "!test-rackspace-freebsd10-x64-1"
+
   roles:
     - bootstrap
     - baselayout
