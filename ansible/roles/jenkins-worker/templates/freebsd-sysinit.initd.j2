@@ -42,8 +42,8 @@ monitor_pidfile="/var/run/${name}/${name}_monitor.pid"
 required_files="${procname} ${jenkins_jar}"
 
 command="/usr/sbin/daemon"
-command_args="-f -r -p ${pidfile} -P ${monitor_pidfile} ${procname} \
-        ${jenkins_args} -slaveLog ${jenkins_log_file}"
+command_args="-u {{ server_user }} -f -r -p ${pidfile} -P ${monitor_pidfile} \
+        ${procname} ${jenkins_args} -slaveLog ${jenkins_log_file}"
 
 start_precmd="jenkins_prestart"
 stop_cmd="jenkins_stop"
@@ -56,7 +56,7 @@ jenkins_prestart() {
   fi
   if [ ! -d $(dirname ${pidfile}) ]; then
     install -d -o "{{ server_user }}" -g "{{ server_user }}" \
-            -m 750 $(dirname ${pidfile})
+            -m 755 $(dirname ${pidfile})
   fi
 }
 
