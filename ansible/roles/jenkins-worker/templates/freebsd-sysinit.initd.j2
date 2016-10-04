@@ -16,22 +16,21 @@
 
 name="jenkins"
 rcvar="jenkins_enable"
-load_rc_config ${name}
 
-required_files="${procname} ${jenkins_jar}"
+: ${jenkins_enable:=NO}
 
 jenkins_env=" \
   OSTYPE=freebsd \
   NODE_COMMON_PIPE=/home/{{ server_user }}/test.pipe \
   NODE_TEST_DIR=/home/{{ server_user }}/tmp \
   PATH=/usr/local/libexec/ccache:/usr/local/bin:${PATH} \
-  JOBS={{ server_jobs | default(ansible_processor_vcpus) }} \
+  JOBS={{ server_jobs|default(ansible_processor_vcpus|default('2')) }} \
   CC=cc \
   CXX=c++"
 
 jenkins_jar="/home/{{ server_user }}/slave.jar"
 jenkins_log_file="/home/{{ server_user }}/${name}_console.log"
-jenkins_args="-jar ${jenkins_jar} -Xmx{{ server_ram|default('128m') }} \
+jenkins_args="-Xmx{{ server_ram|default('128m') }} -jar ${jenkins_jar} \
   -jnlpUrl {{ jenkins_url }}/computer/{{ inventory_hostname }}/slave-agent.jnlp \
   -secret {{ secret }}"
 
@@ -40,12 +39,14 @@ procname=$(cat /usr/local/etc/javavms | cut -d "#" -f 1)
 pidfile="/var/run/${name}/${name}.pid"
 monitor_pidfile="/var/run/${name}/${name}_monitor.pid"
 
+required_files="${procname} ${jenkins_jar}"
+
 command="/usr/sbin/daemon"
 command_args="-f -r -p ${pidfile} -P ${monitor_pidfile} ${procname} \
         ${jenkins_args} -slaveLog ${jenkins_log_file}"
 
-start_precmd="${name}_prestart"
-stop_cmd="${name}_stop"
+start_precmd="jenkins_prestart"
+stop_cmd="jenkins_stop"
 
 jenkins_prestart() {
   if [ ! -f "${jenkins_log_file}" ]; then
@@ -54,12 +55,8 @@ jenkins_prestart() {
     chmod 640 "${jenkins_log_file}"
   fi
   if [ ! -d $(dirname ${pidfile}) ]; then
-    install -d -o "{{ server_user }}" -g "${jenkins_group}" \
+    install -d -o "{{ server_user }}" -g "{{ server_user }}" \
             -m 750 $(dirname ${pidfile})
-  fi
-
-  if [ ! ${jenkins_secret} ]; then
-    err 1 "You need to add a jenkins secret"
   fi
 }
 
@@ -77,4 +74,5 @@ jenkins_stop()
         fi
 }
 
+load_rc_config ${name}
 run_rc_command "$1"
