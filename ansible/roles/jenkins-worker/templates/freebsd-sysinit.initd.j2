@@ -22,6 +22,7 @@ load_rc_config ${name}
 : ${jenkins_enable:=NO}
 
 jenkins_env=" \
+  HOME=/home/{{ server_user }} \
   OSTYPE=freebsd \
   NODE_COMMON_PIPE=/home/{{ server_user }}/test.pipe \
   NODE_TEST_DIR=/home/{{ server_user }}/tmp \
@@ -47,9 +48,10 @@ required_files="${procname} ${jenkins_jar}"
 
 command="/usr/sbin/daemon"
 command_args="-f -r -p ${pidfile} -P ${monitor_pidfile} \
-        ${procname} ${jenkins_args} -slaveLog ${jenkins_log_file}"
+              ${procname} ${jenkins_args} -slaveLog ${jenkins_log_file}"
 
 start_precmd="jenkins_prestart"
+start_cmd="jenkins_start"
 stop_cmd="jenkins_stop"
 
 jenkins_prestart() {
@@ -64,18 +66,24 @@ jenkins_prestart() {
   fi
 }
 
+# need to override _start since it doesn't seem to pass env in FreeBSD 11
+jenkins_start() {
+  echo -n "Starting service: ${name}"
+    exec env ${jenkins_env} ${command} ${command_args}
+  echo .
+}
+
 # Kill monitor, not java since it would respawn
-jenkins_stop()
-{
-        if [ ! -f ${pidfile} -a ! -f ${monitor_pidfile} ]; then
-                echo "${name} isn't running."
-        else
-                echo -n "Stopping service: ${name}"
-                kill `cat ${monitor_pidfile}`
-                # files are removed on exit, but be extra sure
-                rm -f ${pidfile} ${monitor_pidfile}
-                echo .
-        fi
+jenkins_stop() {
+  if [ ! -f ${pidfile} -a ! -f ${monitor_pidfile} ]; then
+    echo "${name} isn't running."
+  else
+    echo -n "Stopping service: ${name}"
+    kill `cat ${monitor_pidfile}`
+    # files are removed on exit, but be extra sure
+    rm -f ${pidfile} ${monitor_pidfile}
+    echo .
+  fi
 }
 
 run_rc_command "$1"
