@@ -54,3 +54,8 @@ java_path: {
   'smartos15': '/opt/local/java/openjdk8/bin/java',
   'smartos16': '/opt/local/java/openjdk8/bin/java'
   }
+
+# same for bash. will default to /bin/bash if you don't set it
+bash_path: {
+  freebsd: '/usr/local/bin/bash'
+  }

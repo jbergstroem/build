@@ -7,8 +7,11 @@
 - name: create group
   group: name="{{ server_user }}"
 
-- name: create the active user
-  user: name="{{ server_user }}" group="{{ server_user }}" shell=/bin/bash
+- name: create user
+  user:
+    name: "{{ server_user }}"
+    group: "{{ server_user }}"
+    shell: "{{ bash_path[os|stripversion]|default('/bin/bash') }}"
 
 - name: add ::1 to /etc/hosts for ipv6 compat
   lineinfile:
