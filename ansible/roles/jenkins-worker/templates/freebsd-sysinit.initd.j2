@@ -17,6 +17,8 @@
 name="jenkins"
 rcvar="jenkins_enable"
 
+load_rc_config ${name}
+
 : ${jenkins_enable:=NO}
 
 jenkins_env=" \
@@ -33,6 +35,8 @@ jenkins_log_file="/home/{{ server_user }}/${name}_console.log"
 jenkins_args="-Xmx{{ server_ram|default('128m') }} -jar ${jenkins_jar} \
   -jnlpUrl {{ jenkins_url }}/computer/{{ inventory_hostname }}/slave-agent.jnlp \
   -secret {{ secret }}"
+jenkins_user="{{ server_user }}"
+jenkins_group="{{ server_user }}"
 
 # FreeBSD uses a java wrapper. Without full path pid monitoring won't work
 procname=$(cat /usr/local/etc/javavms | cut -d "#" -f 1)
@@ -42,7 +46,7 @@ monitor_pidfile="/var/run/${name}/${name}_monitor.pid"
 required_files="${procname} ${jenkins_jar}"
 
 command="/usr/sbin/daemon"
-command_args="-u {{ server_user }} -f -r -p ${pidfile} -P ${monitor_pidfile} \
+command_args="-f -r -p ${pidfile} -P ${monitor_pidfile} \
         ${procname} ${jenkins_args} -slaveLog ${jenkins_log_file}"
 
 start_precmd="jenkins_prestart"
@@ -74,5 +78,4 @@ jenkins_stop()
         fi
 }
 
-load_rc_config ${name}
 run_rc_command "$1"
