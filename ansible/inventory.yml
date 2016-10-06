@@ -10,9 +10,9 @@ hosts:
   - infra:
 
     - digitalocean:
-        debian8-x64-1: {ip: 67.205.139.6, alias: www2}
         ubuntu14-x64-1: {ip: 107.170.240.62, alias: ci}
         ubuntu14-x64-2: {ip: 104.131.173.199, alias: www}
+        ubuntu1604-x64-1: {ip: 162.243.173.250, alias: www2}
 
     - joyent:
         debian8-x64-1: {ip: 72.2.114.102, alias: unencrypted}

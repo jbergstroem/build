@@ -8,7 +8,7 @@
 #       have to set up manually and have mounted to /home/dist
 #       before proceeding
 
-- hosts: infra-digitalocean-debian8-x64-1
+- hosts: infra-digitalocean-ubuntu1604-x64-1
   roles:
     - bootstrap
     - baselayout
