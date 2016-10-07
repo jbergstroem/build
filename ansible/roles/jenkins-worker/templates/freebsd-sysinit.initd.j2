@@ -68,9 +68,8 @@ jenkins_prestart() {
 
 # need to override _start since it doesn't seem to pass env in FreeBSD 11
 jenkins_start() {
-  echo -n "Starting service: ${name}"
+  echo "Starting service: ${name}."
     exec env ${jenkins_env} ${command} ${command_args}
-  echo .
 }
 
 # Kill monitor, not java since it would respawn
