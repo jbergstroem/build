@@ -14,7 +14,14 @@
 #
 #    `$machine_type@build.nodejs.org`
 #
-# 3. the key needs to be rsa with at least a 4096 key length
+# 3. all keys needs to be rsa with at least a 4096 key length
+#
+# usage:
+#
+# you will be prompted a path to the new key - which means old keys should
+# still stay in place. the new key will not overwrite the old one locally,
+# so after the playbook has finished you need to manually replace the old
+# one to be able to connect to hosts.
 #
 
 - hosts: all

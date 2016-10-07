@@ -34,16 +34,20 @@ need to edit a few set of hosts.
 
 These playbooks are available to you:
 
-  - **create-jenkins-worker.yml**: Sets up a new jenkins worker.
+  - **jenkins/host/create.yml**: Sets up jenkins ci hosts.
 
-  - **create-linter.yml**: Sets up the code linters.
+  - **jenkins/host/iptables.yml**: Update iptables rules so workers can connect.
+
+  - **jenkins/worker/create.yml**: Sets up jenkins workers.
+
+  - **jenkins/worker/upgrade-jar.yml**: Upgrades the worker jar file.
+
+  - **jenkins/linter.yml**: Sets up the code linters (flavour of a worker).
 
   - **create-webhost.yml**: Configures the server(s) that host nodejs.org,
                             iojs.org and dist.libuv.org among other things.
 
   - **upgrade-packages.yml**: Upgrades packages on provided hosts.
-
-  - **upgrade-worker-jar.yml**: Upgrades the worker jar file.
 
   - **update-ssh-keys.yml**: Updates (and verifies) {,pub}keys both locally
     and remote. This is useful if you want to cycle keys.
@@ -109,6 +113,15 @@ Hosts can inherit extra options by adding them to `ansible.cfg`. These are
 freeform and are passed to ansible. One example is adding a proxycommand
 configuration to hosts at NodeSource since they sit behind a jumphost.
 
+Add a config section by creating a group with the name of the hosts you want
+to match (matches on full hostname). Since this is passed to `host_vars` it
+can be any kind of ansible variable/config:
+
+```ini
+[hosts:freebsd]
+ansible_python_interpreter: /usr/local/bin/python
+```
+
 **Note**: We currently can't use ansible's built-in support for `proxy_command`
           since that will enable the `paramiko` connection plugin, disregard
           other ssh-specific options.
@@ -124,15 +137,16 @@ Unsorted stuff of things we need to do/think about
       hosts (or set up a new jump host)
 - [ ] copy release (staging) keys to release machines
 - [ ] backup host: generate config, install rsnapshot
-- [ ] scaleway: authorized_keys2 since first is overridden at boot
+- [x] scaleway: authorized_keys2 since first is overridden at boot
 - [ ] switch to slaveLog for all jenkins instances lacking stdout redirection
       (note: this depends on init type!)
 - [ ] add iptables-save-persistent to cron on ci hosts
 - [ ] [unencrypted host](https://git.io/v6H1z)
-- [ ] make exceptions for jump hosts when adding to the CI iptables firewall
+- [x] make exceptions for jump hosts when adding to the CI iptables firewall
 - [ ] when creating additional jenkins labels based on `labels=` add os/arch
       as part of hte label (ref: rvagg long irc talk see 2016-08-29 logs)
 - [ ] follow up ansible upstream wrt hostname support for smartos/alpine
 - [ ] callback plugin: make `nodejs_yaml` a class and support `--host`
 - [ ] add label support to jenkins
 - [ ] move all service-related stuff to handlers
+- [ ] find a nicer way of adding proxyhosts to iptables

@@ -35,7 +35,8 @@ import json
 import yaml
 import os
 import sys
-import pprint
+
+
 valid = {
   # taken from nodejs/node.git: ./configure
   'arch': ('arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 'x32',
@@ -138,10 +139,10 @@ def main():
                             c.update({'is_win': True})
 
                         # add specific options from config
-                        for option in ifilter(lambda s: s.startswith('glob:'),
+                        for option in ifilter(lambda s: s.startswith('hosts:'),
                                               config.sections()):
-                            # remove glob:
-                            if option[5:] in hostname:
+                            # remove `hosts:`
+                            if option[6:] in hostname:
                                 for o in config.items(option):
                                     # configparser returns tuples of key, value
                                     c.update({o[0]: o[1]})
