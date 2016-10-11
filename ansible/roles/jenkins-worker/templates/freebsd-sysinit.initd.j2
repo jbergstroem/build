@@ -22,7 +22,7 @@ load_rc_config ${name}
 : ${jenkins_enable:=NO}
 
 jenkins_env=" \
-  HOME=/home/{{ server_user }} \
+  HOME=/usr/home/{{ server_user }} \
   OSTYPE=freebsd \
   NODE_COMMON_PIPE=/home/{{ server_user }}/test.pipe \
   NODE_TEST_DIR=/home/{{ server_user }}/tmp \
