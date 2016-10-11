@@ -23,7 +23,7 @@
       failed_when: not secret
 
   tasks:
-    - name: install required packages
+    - name: install lint-related packages
       package: name="{{ package }}" state=present
       loop_control:
         loop_var: package
