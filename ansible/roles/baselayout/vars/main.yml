@@ -27,6 +27,7 @@ common_packages: [
 # but the playbook chooses os over family - not both
 packages: {
   alpine: [
+    'autoconf',
     'ccache',
     'g++',
     'gcc',
