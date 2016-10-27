@@ -10,9 +10,9 @@ hosts:
   - infra:
 
     - digitalocean:
+        debian8-x64-1: {ip: 198.199.72.83, alias: collector}
         ubuntu14-x64-1: {ip: 107.170.240.62, alias: ci}
-        ubuntu14-x64-2: {ip: 104.131.173.199, alias: www}
-        ubuntu1604-x64-1: {ip: 162.243.173.250, alias: www2}
+        ubuntu1604-x64-1: {ip: 162.243.173.250, alias: www}
 
     - joyent:
         debian8-x64-1: {ip: 72.2.114.102, alias: unencrypted}
@@ -79,6 +79,7 @@ hosts:
         fedora24-x64-1: {ip: 104.236.112.180}
         freebsd10-x64-1: {ip: 162.243.204.248, user: freebsd}
         freebsd11-x64-1: {ip: 45.55.90.237, user: freebsd}
+        freebsd11-x64-2: {ip: 107.170.28.213, user: freebsd}
         ubuntu12-x64-1: {ip: 104.236.234.182}
         ubuntu12-x64-2: {ip: 107.170.104.83}
         ubuntu14-x64-1: {ip: 45.55.252.223}
@@ -112,7 +113,41 @@ hosts:
         ubuntu1604-arm64_odroid_c2-2: {ip: 70.167.220.148}
         ubuntu1604-arm64_odroid_c2-3: {ip: 70.167.220.149}
 
-    - nodesource:
+    - osuosl:
+        aix61-ppc64_be-1: {ip: 140.211.9.101}
+        aix61-ppc64_be-2: {ip: 140.211.9.100}
+        ubuntu14-ppc64_be-1: {ip: 140.211.168.74}
+        ubuntu14-ppc64_be-2: {ip: 140.211.168.75}
+        ubuntu14-ppc64_le-1: {ip: 140.211.168.106}
+        ubuntu14-ppc64_le-2: {ip: 140.211.168.94}
+
+    - rackspace:
+        debian8-x64-1: {ip: 23.253.109.216}
+        debian8-x64-2: {ip: 104.239.140.184}
+        fedora22-x64-1: {ip: 119.9.51.79}
+        fedora23-x64-1: {ip: 119.9.51.113}
+        fedora24-x64-1: {ip: 119.9.51.165}
+        freebsd10-x64-1: {ip: 119.9.52.218}
+        win2008r2-x64-1: {ip: 104.130.225.148}
+        win2008r2-x64-2: {ip: 23.253.254.31}
+        win2008r2-x64-3: {ip: 104.130.8.178}
+        win2008r2-x64-4: {ip: 104.239.156.73}
+        win2008r2-x64-5: {ip: 104.239.231.190}
+        win2008r2-x64-6: {ip: 23.253.107.98}
+        win2012r2-x64-1: {ip: 104.130.175.153}
+        win2012r2-x64-2: {ip: 23.253.249.139}
+        win2012r2-x64-3: {ip: 162.242.241.50}
+        win2012r2-x64-4: {ip: 67.192.246.240}
+        win2012r2-x64-5: {ip: 104.239.174.16}
+        win2012r2-x64-6: {ip: 23.253.234.112}
+        win2012r2-x64-7: {ip: 162.242.247.5}
+        win2012r2-x64-8: {ip: 104.239.151.28}
+        win2012r2-x64-9: {ip: 104.239.231.87}
+        win2012r2-x64-10: {ip: 162.242.156.145}
+        win2012r2-x64-11: {ip: 162.242.235.179}
+        win2012r2-x64-12: {ip: 104.239.150.105}
+
+    - requireio:
         andineck-debian7-arm_pi1p-1: {ip: 192.168.2.42, user: pi}
         bengl-debian7-arm_pi1p-1: {ip: 192.168.2.43, user: pi}
         bengl-debian7-arm_pi1p-2: {ip: 192.168.2.44, user: pi}
@@ -152,40 +187,6 @@ hosts:
         williamkapke-debian8-arm_pi3-3: {ip: 192.168.2.82, user: pi}
         xgene-ubuntu1404-arm64-1: {ip: 192.168.2.1, user: ubuntu}
         xgene-ubuntu1404-arm64-2: {ip: 192.168.2.2, user: ubuntu}
-
-    - osuosl:
-        aix61-ppc64_be-1: {ip: 140.211.9.101}
-        aix61-ppc64_be-2: {ip: 140.211.9.100}
-        ubuntu14-ppc64_be-1: {ip: 140.211.168.74}
-        ubuntu14-ppc64_be-2: {ip: 140.211.168.75}
-        ubuntu14-ppc64_le-1: {ip: 140.211.168.106}
-        ubuntu14-ppc64_le-2: {ip: 140.211.168.94}
-
-    - rackspace:
-        debian8-x64-1: {ip: 23.253.109.216}
-        debian8-x64-2: {ip: 104.239.140.184}
-        fedora22-x64-1: {ip: 119.9.51.79}
-        fedora23-x64-1: {ip: 119.9.51.113}
-        fedora24-x64-1: {ip: 119.9.51.165}
-        freebsd10-x64-1: {ip: 119.9.52.218}
-        win2008r2-x64-1: {ip: 104.130.225.148}
-        win2008r2-x64-2: {ip: 23.253.254.31}
-        win2008r2-x64-3: {ip: 104.130.8.178}
-        win2008r2-x64-4: {ip: 104.239.156.73}
-        win2008r2-x64-5: {ip: 104.239.231.190}
-        win2008r2-x64-6: {ip: 23.253.107.98}
-        win2012r2-x64-1: {ip: 104.130.175.153}
-        win2012r2-x64-2: {ip: 23.253.249.139}
-        win2012r2-x64-3: {ip: 162.242.241.50}
-        win2012r2-x64-4: {ip: 67.192.246.240}
-        win2012r2-x64-5: {ip: 104.239.174.16}
-        win2012r2-x64-6: {ip: 23.253.234.112}
-        win2012r2-x64-7: {ip: 162.242.247.5}
-        win2012r2-x64-8: {ip: 104.239.151.28}
-        win2012r2-x64-9: {ip: 104.239.231.87}
-        win2012r2-x64-10: {ip: 162.242.156.145}
-        win2012r2-x64-11: {ip: 162.242.235.179}
-        win2012r2-x64-12: {ip: 104.239.150.105}
 
     - softlayer:
         centos5-x64-1: {ip: 50.23.85.252}
