@@ -35,7 +35,7 @@ hosts:
         smartos13-x64-1: {ip: 72.2.114.225}
         smartos14-x64-1: {ip: 72.2.113.193}
 
-    - nodesource:
+    - requireio:
         andineck-debian7-arm_pi1p-1: {ip: 192.168.2.41, user: pi}
         xgene-ubuntu1404-arm64-1: {ip: 192.168.2.3, user: ubuntu, alias: arm-nfshost}
         rvagg-debian7-arm_pi1p-1: {ip: 192.168.2.40, user: pi}

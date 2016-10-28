@@ -47,7 +47,7 @@ valid = {
 
   # providers - validated for consistency
   'provider': ('azure', 'digitalocean', 'joyent', 'ibm', 'linuxonecc',
-               'mininodes', 'msft', 'nodesource', 'osuosl', 'rackspace',
+               'mininodes', 'msft', 'osuosl', 'rackspace', 'requireio',
                'scaleway', 'softlayer', 'voxer')
 }
 
@@ -59,7 +59,6 @@ valid = {
 #
 # parsing done on host naming:
 #
-# - *nodesource*: adds tunnel
 # - *freebsd*: changes path to python interpreter
 # - *smartos*: changes path to python interpreter
 #
