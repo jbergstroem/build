@@ -11,7 +11,7 @@ hosts:
 
     - digitalocean:
         debian8-x64-1: {ip: 198.199.72.83, alias: collector}
-        ubuntu14-x64-1: {ip: 107.170.240.62, alias: ci}
+        ubuntu1404-x64-1: {ip: 107.170.240.62, alias: ci}
         ubuntu1604-x64-1: {ip: 162.243.173.250, alias: www}
 
     - joyent:
@@ -23,7 +23,7 @@ hosts:
 
     - softlayer:
         debian8-x64-1: {ip: 184.172.29.199, alias: registry-mirror}
-        ubuntu14-x64-1: {ip: 169.44.16.104, alias: ci-release}
+        ubuntu1404-x64-1: {ip: 169.44.16.104, alias: ci-release}
 
 
   - release:
@@ -42,8 +42,8 @@ hosts:
 
     - osuosl:
         aix61-ppc64_be-1: {ip: 140.211.9.99}
-        ubuntu14-ppc64_be-1: {ip: 140.211.168.76}
-        ubuntu14-ppc64_le-1: {ip: 140.211.168.66}
+        ubuntu1404-ppc64_be-1: {ip: 140.211.168.76}
+        ubuntu1404-ppc64_le-1: {ip: 140.211.168.66}
 
     - scaleway:
         debian7-arm-1: {ip: 212.47.230.165}
@@ -82,10 +82,12 @@ hosts:
         freebsd11-x64-2: {ip: 107.170.28.213, user: freebsd}
         ubuntu12-x64-1: {ip: 104.236.234.182}
         ubuntu12-x64-2: {ip: 107.170.104.83}
-        ubuntu14-x64-1: {ip: 45.55.252.223}
-        ubuntu14-x86-1: {ip: 159.203.115.220}
+        ubuntu1404-x64-1: {ip: 45.55.252.223}
+        ubuntu1404-x86-1: {ip: 159.203.115.220}
         ubuntu1604-x64-1: {ip: 104.236.89.53}
-        ubuntu1604-x64-2: {ip: 159.203.77.233}
+        ubuntu1604_dockeralpine34-x64-1: {ip: 107.170.75.204}
+        ubuntu1610-x64-1: {ip: 45.55.83.154}
+        ubuntu1610-x64-2: {ip: 138.197.31.102}
 
     - ibm:
         aix61-ppc64-1: {ip: 50.200.166.131, port: 18822}
@@ -116,18 +118,22 @@ hosts:
     - osuosl:
         aix61-ppc64_be-1: {ip: 140.211.9.101}
         aix61-ppc64_be-2: {ip: 140.211.9.100}
-        ubuntu14-ppc64_be-1: {ip: 140.211.168.74}
-        ubuntu14-ppc64_be-2: {ip: 140.211.168.75}
-        ubuntu14-ppc64_le-1: {ip: 140.211.168.106}
-        ubuntu14-ppc64_le-2: {ip: 140.211.168.94}
+        ubuntu1404-ppc64_be-1: {ip: 140.211.168.74}
+        ubuntu1404-ppc64_be-2: {ip: 140.211.168.75}
+        ubuntu1404-ppc64_le-1: {ip: 140.211.168.106}
+        ubuntu1404-ppc64_le-2: {ip: 140.211.168.94}
 
     - rackspace:
+        centos7-x64-1: {ip: 23.253.249.127}
         debian8-x64-1: {ip: 23.253.109.216}
         debian8-x64-2: {ip: 104.239.140.184}
         fedora22-x64-1: {ip: 119.9.51.79}
         fedora23-x64-1: {ip: 119.9.51.113}
         fedora24-x64-1: {ip: 119.9.51.165}
         freebsd10-x64-1: {ip: 119.9.52.218}
+        ubuntu1204_clang341-x64-1: {ip: 119.9.51.210}
+        ubuntu1604-x64-1: {ip: 119.9.51.176}
+        ubuntu1604-x64-2: {ip: 104.130.124.194}
         win2008r2-x64-1: {ip: 104.130.225.148}
         win2008r2-x64-2: {ip: 23.253.254.31}
         win2008r2-x64-3: {ip: 104.130.8.178}
@@ -187,6 +193,10 @@ hosts:
         williamkapke-debian8-arm_pi3-3: {ip: 192.168.2.82, user: pi}
         xgene-ubuntu1404-arm64-1: {ip: 192.168.2.1, user: ubuntu}
         xgene-ubuntu1404-arm64-2: {ip: 192.168.2.2, user: ubuntu}
+        
+    - scaleway:
+        debian7-arm_armv7-1: {ip: 212.47.234.107}
+        debian7-arm_armv7-2: {ip: 212.47.245.242}
 
     - softlayer:
         centos5-x64-1: {ip: 50.23.85.252}
@@ -195,5 +205,5 @@ hosts:
         centos6-x64-2: {ip: 184.173.120.137}
         centos7-x64-1: {ip: 50.23.85.250}
         debian8-x86-1: {ip: 169.44.16.126}
-        ubuntu14-x64-1: {ip: 50.97.245.5}
-        ubuntu14-x86-1: {ip: 50.97.245.9}
+        ubuntu1404-x64-1: {ip: 50.97.245.5}
+        ubuntu1404-x86-1: {ip: 50.97.245.9}

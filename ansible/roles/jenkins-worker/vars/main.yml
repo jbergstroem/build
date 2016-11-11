@@ -5,35 +5,42 @@
 #
 
 init: {
+  freebsd-sysinit: 'freebsd',
   openrc: 'alpine',
-  systemd: ['centos7', 'debian8', 'fedora', 'ubuntu1604'],
-  sysvinit: 'centos',
+  systemd: ['centos7', 'debian8', 'fedora', 'ubuntu1404', 'ubuntu1604',
+            'ubuntu1610'],
+  sysvinit: ['centos5', 'centos6', 'debian7'],
   svc: 'smartos',
-  sysinit: 'freebsd'
+  upstart: 'ubuntu12'
   }
 
 jenkins_init: {
+  freebsd-sysinit: {
+    dest: '/usr/local/etc/rc.d/jenkins',
+    src: 'freebsd-sysinit.initd.j2',
+    mode: '0755'
+    },
   openrc: {
     dest: '/etc/init.d/jenkins',
     src: 'openrc.initd.j2',
     mode: '0755'
     },
-  systemd: {
-    dest: '/lib/systemd/system/jenkins.service',
-    src: 'systemd.service.j2'
-    },
   svc: {
     dest: '/home/{{ server_user }}/jenkins_manifest.xml',
     src: 'jenkins_manifest.xml.j2'
     },
+  systemd: {
+    dest: '/lib/systemd/system/jenkins.service',
+    src: 'systemd.service.j2'
+    },
+  sysvinit: {
+    dest: '/etc/init.d/jenkins',
+    src: 'sysvinit.initd.j2',
+    mode: '0755'
+    },
   upstart: {
     dest: '/etc/init/jenkins.conf',
     src: 'upstart.j2'
-    },
-  sysinit: {
-    dest: '/usr/local/etc/rc.d/jenkins',
-    src: 'freebsd-sysinit.initd.j2',
-    mode: '0755'
     },
   }
 
@@ -45,7 +52,9 @@ jenkins: "{{ jenkins_init[init_type] }}"
 
 needs_monit: [
   'alpine34',
-  'centos5'
+  'centos5',
+  'centos6',
+  'debian7',
   ]
 
 # some os'es needs different paths to java. add them here.

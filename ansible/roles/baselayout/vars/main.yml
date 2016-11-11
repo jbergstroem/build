@@ -11,7 +11,7 @@ ccache_version: 3.3.2
 ssh_config: /etc/ssh/sshd_config
 
 ntp_service: {
-  systemd: ['debian8', ]
+  systemd: ['debian8', 'ubuntu1404', 'ubuntu1604', 'ubuntu1610']
   }
 
 common_packages: [
@@ -34,8 +34,12 @@ packages: {
     'linux-headers',
     'm4',
     'make',
+    'procps',
     'xz'
   ],
+  centos: [
+    'ccache',
+    ],
   freebsd: [
     'ccache',
     'gmake'

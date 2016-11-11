@@ -8,13 +8,13 @@
 #
 
 - hosts:
-  - infra-digitalocean-ubuntu14-x64-1 # ci.nodejs.org
-  - infra-softlayer-ubuntu14-x64-1 # ci-release.nodejs.org
+  - infra-digitalocean-ubuntu1404-x64-1 # ci.nodejs.org
+  - infra-softlayer-ubuntu1404-x64-1 # ci-release.nodejs.org
 
   vars:
     hostgroups: {
-      'infra-digitalocean-ubuntu14-x64-1': 'test',
-      'infra-softlayer-ubuntu14-x64-1': 'release'
+      'infra-digitalocean-ubuntu1404-x64-1': 'test',
+      'infra-softlayer-ubuntu1404-x64-1': 'release'
       }
     jumphost: 'vagg-arm.nodejs.org'
 
@@ -41,7 +41,7 @@
 
   # awful awful. should really look up this somehow but i can't figure out
   # how to do it properly.
-  - name: add proxy hosts to firewall
+  - name: add proxy host(s) to firewall
     iptables:
       table: filter
       chain: jnlp
