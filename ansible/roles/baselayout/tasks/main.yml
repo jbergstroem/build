@@ -5,12 +5,12 @@
 #
 
 - name: gather facts
-  setup: gather_subset=hardware
+  setup:
 
-# setting hostname is not supported for all os'es. see
+# setting hostname is not supported for all os:es. see
 # https://github.com/ansible/ansible-modules-core/issues/4818
 # https://github.com/ansible/ansible-modules-core/issues/4782
-# also, some os'es complain about underscores in hostnames
+# also, some os:es complain about underscores in hostnames
 - name: set hostname
   when: not os|startswith("alpine") and not os|startswith("smartos")
   hostname: name="{{ inventory_hostname|replace('_', '-') }}"
