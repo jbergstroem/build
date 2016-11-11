@@ -150,3 +150,4 @@ Unsorted stuff of things we need to do/think about
 - [ ] add label support to jenkins
 - [ ] move all service-related stuff to handlers
 - [ ] find a nicer way of adding proxyhosts to iptables
+- [ ] add clang/clang++ symlinks for ccache
