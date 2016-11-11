@@ -13,6 +13,7 @@
 
 - name: "ccache : prepare for compilation"
   shell: ./configure -q
+  args:
     chdir: "/tmp/ccache-{{ version }}"
 
 - name: "ccache : compile"
