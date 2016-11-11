@@ -12,13 +12,14 @@
   args:
     src: "{{ monitrc }}"
     dest: "/etc/monitrc"
-    mode: 0600
+    mode: 0440
   loop_control:
     loop_var: monitrc
   with_first_found:
     - files:
         - "{{ role_path }}/files/{{ os }}.monitrc"
         - "{{ role_path }}/files/{{ os|stripversion }}.monitrc"
+        - "{{ role_path }}/files/default.monitrc"
 
 - name: start monit on boot
   service: name=monit enabled=yes state=started
