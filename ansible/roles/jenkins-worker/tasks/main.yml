@@ -19,6 +19,17 @@
     state: present
     line: ::1 localhost.localdomain localhost
 
+- name: prepare installing tap2junit
+  include: "{{ pip_include }}"
+  loop_control:
+    loop_var: pip_include
+  with_first_found:
+    - files:
+        - "{{ role_path }}/tasks/partials/tap2junit/{{ os }}.yml"
+        - "{{ role_path }}/tasks/partials/tap2junit/{{ os|stripversion }}.yml"
+        - "{{ role_path }}/tasks/partials/tap2junit/pip.yml"
+      skip: true
+
 - name: download slave.jar
   get_url:
     url: "{{ jenkins_worker_jar }}"
