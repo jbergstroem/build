@@ -9,7 +9,7 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 User={{ server_user }}
-estart=always
+Restart=always
 RestartSec=30
 StartLimitInterval=0
 
